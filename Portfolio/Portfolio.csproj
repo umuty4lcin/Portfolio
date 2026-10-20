@@ -19,4 +19,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewComponent\AdminViewComponents\" />
+    <Folder Include="ViewComponent\StatisticsViewComponents\" />
+    <Folder Include="Views\Shared\Components\" />
+  </ItemGroup>
+
 </Project>
