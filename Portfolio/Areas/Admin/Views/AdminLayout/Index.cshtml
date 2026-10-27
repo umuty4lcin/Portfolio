@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+    @await Component.InvokeAsync("_AdminLayoutHeadComponentPartial")
+<body>
+    @await Component.InvokeAsync("_AdminLayoutSidebarComponentPartial")
+
+    @await Component.InvokeAsync("_AdminLayoutMobileSidebarComponentPartial")
+
+    <div id="main-content-wrapper">
+        <main class="main-body-container p-4 p-lg-5">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @await Component.InvokeAsync("_AdminLayoutScriptComponentPartial")
+</body>
+</html>
