@@ -1,0 +1,31 @@
+﻿@model Portfolio.Entities.Category
+@{
+    ViewData["Title"] = "Kategoriyi Düzenle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="ui-card ui-form">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Kategoriyi Düzenle</h2>
+            <p class="ui-card-sub">Kategori adını güncelleyin.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <input type="hidden" asp-for="CategoryId" />
+
+        <div class="ui-card-body">
+            <label class="ui-label" for="CategoryName">Kategori Adı</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                <input type="text" class="form-control" asp-for="CategoryName" required />
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Güncelle</button>
+            <a href="/Admin/Category/CategoryList" class="ui-btn ui-btn-light">Vazgeç</a>
+        </div>
+    </form>
+</div>

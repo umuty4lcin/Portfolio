@@ -338,6 +338,242 @@
         }
     </style>
 
+    <style>
+        /* ========== ORTAK ADMIN BİLEŞENLERİ (tüm CRUD sayfaları bunları kullanır) ========== */
+        .ui-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-subtle);
+            overflow: hidden;
+        }
+
+        .ui-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ui-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .ui-card-sub {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin: 2px 0 0;
+        }
+
+        .ui-card-body { padding: 24px; }
+
+        .ui-card-footer {
+            display: flex;
+            gap: 10px;
+            padding: 16px 24px;
+            background: #F8F9FD;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .ui-count {
+            background: var(--pastel-purple);
+            color: var(--primary-accent);
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Tablo */
+        .ui-table {
+            width: 100%;
+            margin: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .ui-table thead th {
+            background: #F8F9FD;
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .ui-table tbody td {
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .ui-table tbody tr:last-child td { border-bottom: 0; }
+        .ui-table tbody tr:hover { background: #FAFAFE; }
+
+        .ui-id {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            height: 30px;
+            padding: 0 6px;
+            border-radius: 8px;
+            background: var(--pastel-purple);
+            color: var(--primary-accent);
+            font-weight: 700;
+            font-size: 0.78rem;
+        }
+
+        .ui-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        /* Butonlar */
+        .ui-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            font-weight: 600;
+            font-size: 0.86rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .ui-btn-primary { background: var(--primary-accent); color: #fff; }
+        .ui-btn-primary:hover { background: var(--primary-accent-hover); color: #fff; }
+
+        .ui-btn-light { background: #fff; border-color: var(--border-color); color: var(--text-primary); }
+        .ui-btn-light:hover { background: #F2F4F9; color: var(--text-primary); }
+
+        .ui-icon-btn {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 9px;
+        }
+
+        .ui-icon-btn.edit { background: var(--pastel-purple); color: var(--primary-accent); }
+        .ui-icon-btn.edit:hover { background: var(--primary-accent); color: #fff; }
+
+        .ui-icon-btn.delete { background: #FDECEC; color: #D9534F; }
+        .ui-icon-btn.delete:hover { background: #D9534F; color: #fff; }
+
+        /* Boş durum */
+        .ui-empty {
+            text-align: center;
+            padding: 56px 24px;
+            color: var(--text-secondary);
+        }
+
+        .ui-empty i { font-size: 2.4rem; color: #C3CAD9; display: block; margin-bottom: 10px; }
+
+        /* Form */
+        .ui-form { max-width: 560px; }
+
+        .ui-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.84rem;
+            margin-bottom: 6px;
+        }
+
+        .ui-hint {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .input-group-text {
+            background: #F8F9FD;
+            border-color: var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .form-control, .form-select { border-color: var(--border-color); }
+
+        /* Durum rozetleri */
+        .ui-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.74rem;
+            font-weight: 600;
+        }
+
+        .ui-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .ui-badge-success { background: #E6F7EE; color: #1E9E5A; }
+        .ui-badge-danger { background: #FDECEC; color: #D9534F; }
+
+        /* Tablodaki küçük görsel ve bağlantılar */
+        .ui-thumb {
+            width: 64px;
+            height: 44px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #F8F9FD;
+            display: block;
+        }
+
+        .ui-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary-accent);
+            font-weight: 600;
+            font-size: 0.84rem;
+            text-decoration: none;
+        }
+
+        .ui-link:hover { color: var(--primary-accent-hover); text-decoration: underline; }
+
+        /* Bootstrap tooltip: uzun metinler (açıklama vb.) için */
+        .tooltip-inner {
+            max-width: 340px;
+            text-align: left;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            border-radius: 8px;
+        }
+
+        /* Bildirimler (TempData) */
+        .ui-alert {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 0;
+            border-radius: var(--radius-md);
+            font-size: 0.86rem;
+            margin-bottom: 16px;
+        }
+    </style>
+
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
@@ -360,28 +596,34 @@
             </a>
 
             <div class="nav-group-title">İçerik</div>
-            <a href="/Admin/About/Index" class="sidebar-link @Active("About")">
+            <a href="/Admin/About/AboutList" class="sidebar-link @Active("About")">
                 <i class="bi bi-person"></i><span>Hakkımda</span>
             </a>
-            <a href="/Admin/Education/Index" class="sidebar-link @Active("Education")">
+            <a href="/Admin/Education/EducationList" class="sidebar-link @Active("Education")">
                 <i class="bi bi-mortarboard"></i><span>Eğitim</span>
             </a>
-            <a href="/Admin/Deneyimler/DeneyimListesi" class="sidebar-link @Active("Deneyimler")">
+            <a href="/Admin/Experience/ExperienceList" class="sidebar-link @Active("Experience")">
                 <i class="bi bi-briefcase"></i><span>Deneyimler</span>
             </a>
-            <a href="/Admin/Skill/Index" class="sidebar-link @Active("Skill")">
+            <a href="/Admin/Skill/SkillList" class="sidebar-link @Active("Skill")">
                 <i class="bi bi-code-slash"></i><span>Yetenekler</span>
             </a>
-            <a href="/Admin/Project/Index" class="sidebar-link @Active("Project")">
+            <a href="/Admin/Category/CategoryList" class="sidebar-link @Active("Category")">
+                <i class="bi bi-tags"></i><span>Kategoriler</span>
+            </a>
+            <a href="/Admin/Project/ProjectList" class="sidebar-link @Active("Project")">
                 <i class="bi bi-grid"></i><span>Projeler</span>
             </a>
 
             <div class="nav-group-title">İletişim & Sistem</div>
-            <a href="/Admin/Message/Index" class="sidebar-link @Active("Message")">
+            <a href="/Admin/Message/MessageList" class="sidebar-link @Active("Message")">
                 <i class="bi bi-envelope"></i><span>Mesajlar</span>
             </a>
-            <a href="/Admin/Setting/Index" class="sidebar-link @Active("Setting")">
+            <a href="/Admin/Setting/SettingList" class="sidebar-link @Active("Setting")">
                 <i class="bi bi-gear"></i><span>Ayarlar</span>
+            </a>
+            <a href="/" target="_blank" class="sidebar-link">
+                <i class="bi bi-box-arrow-up-right"></i><span>Siteyi Görüntüle</span>
             </a>
         </nav>
 
@@ -412,7 +654,7 @@
                 <a href="/" target="_blank" class="nav-icon-btn" title="Siteyi Görüntüle">
                     <i class="bi bi-box-arrow-up-right"></i>
                 </a>
-                <a href="/Admin/Message/Index" class="nav-icon-btn" title="Mesajlar">
+                <a href="/Admin/Message/MessageList" class="nav-icon-btn" title="Mesajlar">
                     <i class="bi bi-envelope"></i>
                 </a>
 
@@ -424,7 +666,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="/Admin/Profile/Index"><i class="bi bi-person-circle"></i> Profilim</a></li>
-                        <li><a class="dropdown-item" href="/Admin/Setting/Index"><i class="bi bi-gear"></i> Ayarlar</a></li>
+                        <li><a class="dropdown-item" href="/Admin/Setting/SettingList"><i class="bi bi-gear"></i> Ayarlar</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger" href="/Login/Logout"><i class="bi bi-box-arrow-right"></i> Çıkış Yap</a></li>
                     </ul>

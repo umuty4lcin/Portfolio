@@ -1,0 +1,30 @@
+﻿@model Portfolio.Entities.Category
+@{
+    ViewData["Title"] = "Yeni Kategori";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="ui-card ui-form">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Yeni Kategori Ekle</h2>
+            <p class="ui-card-sub">Projeleri gruplamak için yeni bir kategori oluşturun.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <div class="ui-card-body">
+            <label class="ui-label" for="CategoryName">Kategori Adı</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-tag"></i></span>
+                <input type="text" class="form-control" asp-for="CategoryName" placeholder="Örn: Web Uygulamaları" required />
+            </div>
+            <div class="ui-hint">Bu ad ana sayfadaki proje filtresinde görünür.</div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Kaydet</button>
+            <a href="/Admin/Category/CategoryList" class="ui-btn ui-btn-light">Vazgeç</a>
+        </div>
+    </form>
+</div>
