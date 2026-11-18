@@ -26,6 +26,10 @@ namespace Portfolio.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult CreateCategory(Category category)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
             _context.Add(category);
             _context.SaveChanges();
             return RedirectToAction("CategoryList");

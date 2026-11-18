@@ -1,0 +1,89 @@
+﻿@model Portfolio.Entities.Contact
+@{
+    ViewData["Title"] = "Ayarlar";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">İletişim Ayarları</h2>
+            <p class="ui-card-sub">Ana sayfadaki iletişim bölümünde görünen bilgileri buradan güncelleyin.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <input type="hidden" asp-for="ContactId" />
+
+        <div class="ui-card-body">
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Email">E-posta</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input type="email" class="form-control" asp-for="Email" placeholder="ornek@mail.com" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Location">Konum</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                            <input type="text" class="form-control" asp-for="Location" placeholder="İstanbul, Türkiye" />
+                        </div>
+                        <span asp-validation-for="Location" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Linkedin">LinkedIn</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-linkedin"></i></span>
+                            <input type="text" class="form-control" asp-for="Linkedin" placeholder="https://linkedin.com/in/..." />
+                        </div>
+                        <span asp-validation-for="Linkedin" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Github">GitHub</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-github"></i></span>
+                            <input type="text" class="form-control" asp-for="Github" placeholder="https://github.com/..." />
+                        </div>
+                        <span asp-validation-for="Github" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Description">Açıklama</label>
+                        <textarea class="form-control" asp-for="Description" rows="6"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="SubDescription">Alt Açıklama</label>
+                        <input type="text" class="form-control" asp-for="SubDescription" placeholder="Genellikle 24 saat içinde yanıt verilir." />
+                        <span asp-validation-for="SubDescription" class="text-danger small"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Kaydet</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,106 @@
+﻿@model Portfolio.Entities.About
+@{
+    ViewData["Title"] = "Hakkımda";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Hakkımda</h2>
+            <p class="ui-card-sub">Ana sayfadaki hakkımda bölümünde görünen bilgileri buradan güncelleyin.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <input type="hidden" asp-for="AboutId" />
+
+        <div class="ui-card-body">
+            <div class="row g-4">
+
+                <!-- Sol: Kişisel bilgiler -->
+                <div class="col-lg-5">
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="NameSurname">Ad Soyad</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input type="text" class="form-control" asp-for="NameSurname" placeholder="Umut Yalçın" />
+                        </div>
+                        <span asp-validation-for="NameSurname" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="JobTitle">Meslek</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                            <input type="text" class="form-control" asp-for="JobTitle" placeholder="Bilgisayar Mühendisi" />
+                        </div>
+                        <span asp-validation-for="JobTitle" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Location">Konum</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                            <input type="text" class="form-control" asp-for="Location" placeholder="İstanbul, Türkiye" />
+                        </div>
+                        <span asp-validation-for="Location" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Expert">Uzmanlık</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-layers"></i></span>
+                            <input type="text" class="form-control" asp-for="Expert" placeholder="Full Stack Web Development" />
+                        </div>
+                        <span asp-validation-for="Expert" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Email">E-posta</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input type="email" class="form-control" asp-for="Email" placeholder="ornek@mail.com" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="OpenToWork">Müsaitlik Durumu</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-check-circle"></i></span>
+                            <input type="text" class="form-control" asp-for="OpenToWork" placeholder="Yeni projelere ve iş birliklerine açık" />
+                        </div>
+                        <span asp-validation-for="OpenToWork" class="text-danger small"></span>
+                        <div class="ui-hint">Ana sayfadaki yeşil kutuda görünür.</div>
+                    </div>
+                </div>
+
+                <!-- Sağ: Biyografi -->
+                <div class="col-lg-7">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Description">Hakkımda Metni</label>
+                        <textarea class="form-control" asp-for="Description" rows="14"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                        <div class="ui-hint">Paragrafları boş satırla ayırın, ana sayfada ayrı paragraflar olarak görünür.</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Kaydet</button>
+        </div>
+    </form>
+</div>

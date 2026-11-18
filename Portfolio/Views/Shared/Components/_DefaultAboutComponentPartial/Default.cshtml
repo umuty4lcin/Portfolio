@@ -1,4 +1,6 @@
-﻿<!-- About Me Section -->
+﻿@model Portfolio.Entities.About
+@if (Model == null) { return; }
+<!-- About Me Section -->
 <section id="about">
     <div class="container">
         <div class="text-center mb-5 reveal-on-scroll">
@@ -16,38 +18,38 @@
                             <i class="bi bi-person-badge"></i>
                         </div>
                         <div>
-                            <h4 class="mb-0 fs-5 fw-bold">Poyraz Alsever</h4>
-                            <span class="text-secondary small">Bilgisayar Mühendisi</span>
+                            <h4 class="mb-0 fs-5 fw-bold">@Model.NameSurname</h4>
+                            <span class="text-secondary small">@Model.JobTitle</span>
                         </div>
                     </div>
 
                     <div class="info-list">
                         <div class="info-list-item">
                             <span class="info-label"><i class="bi bi-person me-2"></i>Ad Soyad</span>
-                            <span class="info-value">Poyraz Alsever</span>
+                            <span class="info-value">@Model.NameSurname</span>
                         </div>
                         <div class="info-list-item">
                             <span class="info-label"><i class="bi bi-briefcase me-2"></i>Meslek</span>
-                            <span class="info-value">Bilgisayar Mühendisi</span>
+                            <span class="info-value">@Model.JobTitle</span>
                         </div>
                         <div class="info-list-item">
                             <span class="info-label"><i class="bi bi-geo-alt me-2"></i>Konum</span>
-                            <span class="info-value">İstanbul, Türkiye</span>
+                            <span class="info-value">@Model.Location</span>
                         </div>
                         <div class="info-list-item">
                             <span class="info-label"><i class="bi bi-layers me-2"></i>Uzmanlık</span>
-                            <span class="info-value">Full Stack Web Development</span>
+                            <span class="info-value">@Model.Expert</span>
                         </div>
                         <div class="info-list-item">
                             <span class="info-label"><i class="bi bi-envelope me-2"></i>E-posta</span>
-                            <span class="info-value">poyraz.alsever@example.com</span>
+                            <span class="info-value">@Model.Email</span>
                         </div>
                     </div>
 
                     <div class="mt-4 pt-2">
                         <div class="p-3 rounded-4" style="background-color: var(--lavender-accent);">
                             <div class="d-flex align-items-center gap-2 text-dark small fw-semibold">
-                                <i class="bi bi-check-circle-fill text-success"></i> Yeni projelere ve iş birliklerine açık
+                                <i class="bi bi-check-circle-fill text-success"></i> @Model.OpenToWork
                             </div>
                         </div>
                     </div>
@@ -57,16 +59,10 @@
             <!-- Right: Biography & Highlight Cards -->
             <div class="col-lg-7 reveal-on-scroll">
                 <div class="pe-lg-3">
-                    <p class="fs-6 text-secondary mb-3">
-                        Merhaba, ben Poyraz Alsever. Yazılım geliştirme, sistem tasarımı ve modern web teknolojilerine ilgi duyan bir bilgisayar mühendisiyim. Üniversite yıllarında başladığım yazılım geliştirme yolculuğumu, profesyonel projeler ve sürekli öğrenme yaklaşımıyla ilerletiyorum.
-                    </p>
-                    <p class="fs-6 text-secondary mb-3">
-                        Özellikle web uygulamaları, backend sistemleri, veritabanı tasarımı ve kullanıcı deneyimine odaklanıyorum. Karmaşık problemleri sade ve sürdürülebilir çözümlere dönüştürmekten keyif alıyorum.
-                    </p>
-                    <p class="fs-6 text-secondary mb-4">
-                        Yeni teknolojileri keşfetmeyi, ekip çalışmalarında sorumluluk üstlenmeyi ve her projede kendimi geliştirmeyi önemsiyorum.
-                    </p>
-
+                    @foreach(var paragraf in (Model.Description ?? "").Split(new[]{"\r\n\r\n", "\n\n"}, StringSplitOptions.RemoveEmptyEntries))
+                    {
+                         <p class="fs-6 text-secondary mb-3">@paragraf.Trim()</p>
+                    }
                     <!-- Three Small Highlight Cards -->
                     <div class="row g-3">
                         <div class="col-md-4">
