@@ -78,6 +78,7 @@ namespace Portfolio.Areas.Admin.Controllers
                 if (path == null)
                 {
                     ViewBag.ImageError = "Sadece jpg, png veya jpeg yükleyebilirsiniz (en fazla 2 MB).";
+                    project.CoverImageUrl = existingProject.CoverImageUrl;
                     LoadCategories(project.CategoryId);
                     return View(project);
                 }

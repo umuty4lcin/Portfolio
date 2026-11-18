@@ -1,12 +1,13 @@
-﻿@{
+﻿@model Portfolio.Areas.Admin.Models.DashboardViewModel
+@{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
 
-    int total = ViewBag.messageCount ?? 0;
-    int readCount = ViewBag.messageReadByTrueCount ?? 0;
-    int unreadCount = ViewBag.messageReadByFalseCount ?? 0;
-    int readPercent = total > 0 ? (int)Math.Round(readCount * 100.0 / total) : 0;
-    int unreadPercent = total > 0 ? 100 - readPercent : 0;
+    // Ad soyaddan baş harfler (örn. "Ahmet Yılmaz" → "AY")
+    string Initials(string? name) =>
+        string.IsNullOrWhiteSpace(name)
+            ? "?"
+            : string.Concat(name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Take(2).Select(s => char.ToUpper(s[0])));
 }
 
 <style>
@@ -305,7 +306,7 @@
         font-size: 13px;
     }
 
-    .badge {
+    .dash-badge {
         display: inline-block;
         padding: 3px 10px;
         border-radius: 99px;
@@ -313,12 +314,12 @@
         font-weight: 600;
     }
 
-    .badge-read {
+    .dash-badge-read {
         background: #ecfdf5;
         color: #047857;
     }
 
-    .badge-unread {
+    .dash-badge-unread {
         background: #fef3c7;
         color: #b45309;
     }
@@ -389,10 +390,9 @@
     <!-- Başlık -->
     <div class="dash-header">
         <div>
-            <h1>Dashboard</h1>
             <p>Hoş geldiniz! Portfolyo sitenizin genel durumu aşağıda.</p>
         </div>
-        <a href="#" class="dash-btn">✉ Tüm Mesajlar</a>
+        
     </div>
 
     <!-- İstatistik kartları -->
@@ -401,7 +401,7 @@
             <div class="stat-icon bg-indigo">✉</div>
             <div>
                 <p class="stat-label">Toplam Mesaj</p>
-                <p class="stat-value">@total</p>
+                <p class="stat-value">@Model.TotalMessages</p>
                 <div class="stat-sub">Tüm zamanlar</div>
             </div>
         </div>
@@ -409,24 +409,24 @@
             <div class="stat-icon bg-green">✔</div>
             <div>
                 <p class="stat-label">Okunmuş Mesaj</p>
-                <p class="stat-value">@readCount</p>
-                <div class="stat-sub">%@readPercent oranında</div>
+                <p class="stat-value">@Model.ReadMessages</p>
+                <div class="stat-sub">%@Model.ReadPercent oranında</div>
             </div>
         </div>
         <div class="dash-card stat">
             <div class="stat-icon bg-amber">●</div>
             <div>
                 <p class="stat-label">Okunmamış Mesaj</p>
-                <p class="stat-value">@unreadCount</p>
-                <div class="stat-sub">%@unreadPercent oranında</div>
+                <p class="stat-value">@Model.UnreadMessages</p>
+                <div class="stat-sub">%@Model.UnreadPercent oranında</div>
             </div>
         </div>
         <div class="dash-card stat">
-            <div class="stat-icon bg-sky">👁</div>
+            <div class="stat-icon bg-sky">📁</div>
             <div>
-                <p class="stat-label">Bu Ay Ziyaretçi</p>
-                <p class="stat-value">1.284</p>
-                <div class="stat-sub">Geçen aya göre +12%</div>
+                <p class="stat-label">Toplam Proje</p>
+                <p class="stat-value">@Model.TotalProjects</p>
+                <div class="stat-sub">@Model.ActiveProjects aktif proje</div>
             </div>
         </div>
     </div>
@@ -436,36 +436,35 @@
         <div class="dash-card">
             <h3>Mesaj Durumu</h3>
             <div class="progress-row">
-                <div class="progress-top"><span>Okunmuş</span><span>@readCount / @total</span></div>
-                <div class="progress-bar"><div class="progress-fill fill-green" style="width:@(readPercent)%"></div></div>
+                <div class="progress-top"><span>Okunmuş</span><span>@Model.ReadMessages / @Model.TotalMessages</span></div>
+                <div class="progress-bar"><div class="progress-fill fill-green" style="width:@(Model.ReadPercent)%"></div></div>
             </div>
             <div class="progress-row">
-                <div class="progress-top"><span>Okunmamış</span><span>@unreadCount / @total</span></div>
-                <div class="progress-bar"><div class="progress-fill fill-amber" style="width:@(unreadPercent)%"></div></div>
+                <div class="progress-top"><span>Okunmamış</span><span>@Model.UnreadMessages / @Model.TotalMessages</span></div>
+                <div class="progress-bar"><div class="progress-fill fill-amber" style="width:@(Model.UnreadPercent)%"></div></div>
             </div>
         </div>
 
         <div class="dash-card">
             <h3>Okunma Oranı</h3>
             <div class="donut-wrap">
-                <div class="donut" style="background: conic-gradient(#10b981 0 @(readPercent)%, #f59e0b @(readPercent)% 100%);">
+                <div class="donut" style="background: conic-gradient(#10b981 0 @(Model.ReadPercent)%, #f59e0b @(Model.ReadPercent)% 100%);">
                     <div class="donut-inner">
-                        <strong>%@readPercent</strong>
+                        <strong>%@Model.ReadPercent</strong>
                         <small>okundu</small>
                     </div>
                 </div>
                 <ul class="legend">
-                    <li><i style="background:#10b981"></i> Okunmuş (@readCount)</li>
-                    <li><i style="background:#f59e0b"></i> Okunmamış (@unreadCount)</li>
-                    <li><i style="background:#4f46e5"></i> Toplam (@total)</li>
+                    <li><i style="background:#10b981"></i> Okunmuş (@Model.ReadMessages)</li>
+                    <li><i style="background:#f59e0b"></i> Okunmamış (@Model.UnreadMessages)</li>
+                    <li><i style="background:#4f46e5"></i> Toplam (@Model.TotalMessages)</li>
                 </ul>
             </div>
         </div>
     </div>
-
     <!-- Hızlı mesaj listesi (statik) -->
     <div class="dash-card" style="margin-bottom:20px;">
-        <h3>Son Mesajlar <a href="#">Tümünü gör →</a></h3>
+        <h3>Son Mesajlar <a href="/Admin/Message/MessageList">Tümünü gör →</a></h3>
         <div class="table-scroll">
             <table class="dash-table">
                 <thead>
@@ -477,62 +476,77 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><div class="name-cell"><span class="avatar">AY</span><div>Ahmet Yılmaz<div class="muted">ahmet@ornek.com</div></div></div></td>
-                        <td>Proje teklifi hakkında</td>
-                        <td class="muted">06.11.2026</td>
-                        <td><span class="badge badge-unread">Okunmadı</span></td>
-                    </tr>
-                    <tr>
-                        <td><div class="name-cell"><span class="avatar">EK</span><div>Elif Kaya<div class="muted">elif@ornek.com</div></div></div></td>
-                        <td>Web sitesi tasarımı</td>
-                        <td class="muted">05.11.2026</td>
-                        <td><span class="badge badge-unread">Okunmadı</span></td>
-                    </tr>
-                    <tr>
-                        <td><div class="name-cell"><span class="avatar">MD</span><div>Mehmet Demir<div class="muted">mehmet@ornek.com</div></div></div></td>
-                        <td>İş birliği önerisi</td>
-                        <td class="muted">03.11.2026</td>
-                        <td><span class="badge badge-read">Okundu</span></td>
-                    </tr>
-                    <tr>
-                        <td><div class="name-cell"><span class="avatar">ZÇ</span><div>Zeynep Çelik<div class="muted">zeynep@ornek.com</div></div></div></td>
-                        <td>Teşekkür mesajı</td>
-                        <td class="muted">01.11.2026</td>
-                        <td><span class="badge badge-read">Okundu</span></td>
-                    </tr>
-                    <tr>
-                        <td><div class="name-cell"><span class="avatar">BA</span><div>Burak Aksoy<div class="muted">burak@ornek.com</div></div></div></td>
-                        <td>Freelance iş talebi</td>
-                        <td class="muted">29.10.2026</td>
-                        <td><span class="badge badge-read">Okundu</span></td>
-                    </tr>
+                    @foreach (var m in Model.LastMessages)
+                    {
+                        <tr>
+                            <td>
+                                <div class="name-cell">
+                                    <span class="avatar">@Initials(m.NameSurname)</span>
+                                    <div>@m.NameSurname<div class="muted">@m.Email</div></div>
+                                </div>
+                            </td>
+                            <td>@m.Subject</td>
+                            <td class="muted">@m.SendDate.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                @if (m.IsRead) { <span class="dash-badge dash-badge-read">Okundu</span> }
+                                else { <span class="dash-badge dash-badge-unread">Okunmadı</span> }
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.LastMessages.Any())
+                    {
+                        <tr><td colspan="4" class="muted text-center py-4">Henüz mesaj yok.</td></tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
-
-    <!-- Son aktiviteler + Hızlı erişim (statik) -->
+        <div class="dash-grid dash-main">
+        <div class="dash-card">
+            <h3>Kategorilere Göre Projeler <span class="muted">@Model.TotalProjects Proje - @Model.TotalCategories kategori</span></h3>
+            
+            @foreach (var c in Model.CategoryStats)
+            {
+                int yuzde = Model.TotalProjects > 0 ? (int)Math.Round(c.ProjectCount * 100.0 / Model.TotalProjects) : 0;
+                <div class="progress-row">
+                    <div class="progress-top"><span>@c.CategoryName</span><span>@c.ProjectCount proje</span></div>
+                    <div class="progress-bar"><div class="progress-fill fill-green" style="width:@(yuzde)%"></div></div>
+                </div>
+            }
+            @if (!Model.CategoryStats.Any())
+            {
+                <div class="muted">Henüz proje yok.</div>
+            }
+        </div>
+    </div>
     <div class="dash-grid dash-main">
         <div class="dash-card">
-            <h3>Son Aktiviteler</h3>
+            <h3>Son Projeler <a href="/Admin/Project/ProjectList">Tümünü gör →</a></h3>
             <ul class="activity">
-                <li><span class="dot" style="background:#4f46e5"></span><div>Yeni bir proje eklendi: <b>E-Ticaret Sitesi</b><span class="time">2 saat önce</span></div></li>
-                <li><span class="dot" style="background:#10b981"></span><div>Hakkımda bölümü güncellendi<span class="time">Dün</span></div></li>
-                <li><span class="dot" style="background:#f59e0b"></span><div>Yeni yetenek eklendi: <b>ASP.NET Core</b><span class="time">3 gün önce</span></div></li>
-                <li><span class="dot" style="background:#0284c7"></span><div>Deneyim bilgileri düzenlendi<span class="time">1 hafta önce</span></div></li>
+                @foreach (var p in Model.LastProjects)
+                {
+                    <li>
+                        <span class="dot" style="background:#4f46e5"></span>
+                        <div>
+                            <b>@p.Title</b>
+                            <span class="time">@p.Category?.CategoryName @(p.IsActive ? "• Aktif" : "• Pasif")</span>
+                        </div>
+                    </li>
+                }
+                @if (!Model.LastProjects.Any())
+                {
+                    <li class="muted">Henüz proje yok.</li>
+                }
             </ul>
         </div>
 
         <div class="dash-card">
             <h3>Hızlı Erişim</h3>
             <div class="quick-links">
-                <a href="#">📁 Projeler</a>
-                <a href="#">🛠 Yetenekler</a>
-                <a href="#">💼 Deneyimler</a>
-                <a href="#">🎓 Eğitim</a>
-                <a href="#">👤 Hakkımda</a>
-                <a href="#">✉ Mesajlar</a>
+                <a href="/Admin/Project/CreateProject">📁 Proje Ekle</a>
+                <a href="/Admin/Message/MessageList">✉ Tüm Mesajlar</a>
+                <a href="/Admin/About/AboutList">👤 Hakkımda</a>
+                <a href="/" target="_blank">🌐 Siteyi Görüntüle</a>
             </div>
         </div>
     </div>

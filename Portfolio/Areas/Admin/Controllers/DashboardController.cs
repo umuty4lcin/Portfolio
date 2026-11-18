@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Portfolio.Context;
+using Portfolio.Areas.Admin.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Portfolio.Areas.Admin.Controllers
 {
@@ -14,10 +16,35 @@ namespace Portfolio.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.messageCount = _context.Messages.Count();
-            ViewBag.messageReadByTrueCount = _context.Messages.Where(m => m.IsRead == true).Count();
-            ViewBag.messageReadByFalseCount = _context.Messages.Where(m => m.IsRead == false).Count();
-            return View();
+            var vm = new DashboardViewModel
+            {
+                TotalMessages = _context.Messages.Count(),
+                UnreadMessages = _context.Messages.Count(m => !m.IsRead),
+                TotalProjects = _context.Projects.Count(),
+                ActiveProjects = _context.Projects.Count(p => p.IsActive),
+                TotalCategories = _context.Categories.Count(),
+
+                LastMessages = _context.Messages
+                    .OrderByDescending(m => m.SendDate)
+                    .Take(5)
+                    .ToList(),
+
+                LastProjects = _context.Projects
+                    .Include(p => p.Category)
+                    .OrderByDescending(p => p.ProjectId)
+                    .Take(3)
+                    .ToList(),
+
+                CategoryStats = _context.Projects
+                    .GroupBy(P => P.Category.CategoryName)
+                    .Select(g => new CategoryStat
+                    {
+                        CategoryName = g.Key,
+                        ProjectCount = g.Count()
+                    })
+                    .ToList()
+            };
+            return View(vm);
         }
     }
 }

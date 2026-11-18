@@ -1,31 +1,192 @@
 ﻿@model List<Portfolio.Entities.Message>
 
 @{
-    ViewData["Title"] = "MessageList";
+    ViewData["Title"] = "Mesajlar";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+    bool filtreVar = !string.IsNullOrWhiteSpace((string?)ViewBag.Search)
+                     || !string.IsNullOrWhiteSpace((string?)ViewBag.Status);
 }
-<div class="container">
-    <br/>
-    <table class="table table-bordered">
-        <tr>
-            <th>#</th>
-            <th>Gönderici</th>
-            <th>Email</th>
-            <th>Konu</th>
-            <th>Tarih</th>
-            <th>Mesajı Aç</th>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.MessageId</td>
-                <td>@item.NameSurname</td>
-                <td>@item.Email</td>
-                <td>@item.Subject</td>
-                <td>@item.SendDate.ToString("dd/MM/yyyy")</td>
-                <td><a href="/Admin/Message/MessageDetail/@item.MessageId" class="btn btn-primary">Mesajı Aç</a></td>
-                <td><a href="/Admin/Message/DeleteMessage/@item.MessageId" class="btn btn-danger">Mesajı Sil</a></td>
-            </tr>
-        }
-    </table>
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">
+                Mesaj Listesi
+                <span class="ui-count">@Model.Count kayıt</span>
+                @if ((int)ViewBag.UnreadCount > 0)
+                {
+                    <span class="ui-badge ui-badge-danger">@ViewBag.UnreadCount okunmamış</span>
+                }
+            </h2>
+            <p class="ui-card-sub">Ziyaretçilerin iletişim formundan gönderdiği mesajları buradan yönetebilirsiniz.</p>
+        </div>
+    </div>
+
+    <!-- Arama / Filtre / Sıralama -->
+    <form method="get" class="d-flex flex-wrap gap-2 px-4 py-3 border-bottom">
+        <input type="text" name="search" value="@ViewBag.Search" class="form-control"
+               style="max-width: 260px;" placeholder="Gönderen veya konu ara..." />
+
+        <select name="status" class="form-select" style="max-width: 160px;">
+            <option value="">Tümü</option>
+            <option value="unread" selected="@(ViewBag.Status == "unread")">Okunmamış</option>
+            <option value="read" selected="@(ViewBag.Status == "read")">Okunmuş</option>
+        </select>
+
+        <select name="sort" class="form-select" style="max-width: 160px;">
+            <option value="newest">En yeni</option>
+            <option value="oldest" selected="@(ViewBag.Sort == "oldest")">En eski</option>
+        </select>
+
+        <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-search"></i> Ara</button>
+        <a href="/Admin/Message/MessageList" class="ui-btn ui-btn-light">Temizle</a>
+    </form>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="ui-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">#</th>
+                        <th>Gönderen</th>
+                        <th>E-posta</th>
+                        <th>Konu</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(item.IsRead ? "" : "fw-bold")">
+                            <td><span class="ui-id">@item.MessageId</span></td>
+                            <td>@item.NameSurname</td>
+                            <td>@item.Email</td>
+                            <td>@item.Subject</td>
+                            <td class="text-nowrap">@item.SendDate.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                @if (item.IsRead)
+                                {
+                                    <span class="ui-badge ui-badge-success">Okundu</span>
+                                }
+                                else
+                                {
+                                    <span class="ui-badge ui-badge-danger">Yeni</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="ui-actions">
+                                    <button type="button" class="ui-btn ui-icon-btn edit btn-open-message"
+                                            data-id="@item.MessageId" title="Mesajı Aç" aria-label="Mesajı Aç">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <a href="/Admin/Message/DeleteMessage/@item.MessageId"
+                                       class="ui-btn ui-icon-btn delete js-delete"
+                                       data-confirm="Bu mesaj kalıcı olarak silinecek."
+                                        title="Sil" aria-label="Sil">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="ui-empty">
+            <i class="bi bi-envelope-open"></i>
+            @if (filtreVar)
+            {
+                <div class="fw-semibold mb-1">Sonuç bulunamadı</div>
+                <div class="small">Arama veya filtreyi değiştirip tekrar deneyin.</div>
+            }
+            else
+            {
+                <div class="fw-semibold mb-1">Henüz mesaj yok</div>
+                <div class="small">İletişim formundan gelen mesajlar burada listelenecek.</div>
+            }
+        </div>
+    }
 </div>
+<!-- Mesaj Detay Modalı -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content" style="border-radius: var(--radius-lg);">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Mesaj Detayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="ui-label">Gönderen</div>
+                        <div id="mdName" class="fw-semibold"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="ui-label">E-posta</div>
+                        <a id="mdEmail" class="ui-link"></a>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="ui-label">Konu</div>
+                        <div id="mdSubject" class="fw-semibold"></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="ui-label">Tarih</div>
+                        <div id="mdDate"></div>
+                    </div>
+                </div>
+                <div class="ui-label">Mesaj</div>
+                <div id="mdBody" class="p-3 rounded-3 border" style="white-space: pre-wrap; background: var(--bg-main, #f8f9fc);"></div>
+            </div>
+            <div class="modal-footer">
+                <a id="mdReply" class="ui-btn ui-btn-primary"><i class="bi bi-reply"></i> E-posta ile yanıtla</a>
+                <button type="button" class="ui-btn ui-btn-light" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        const modalEl = document.getElementById('messageModal');
+        const modal = new bootstrap.Modal(modalEl);
+        let degisti = false;
+
+        document.querySelectorAll('.btn-open-message').forEach(btn => {
+            btn.addEventListener('click', async function () {
+                const id = this.dataset.id;
+
+                const response = await fetch('/Admin/Message/MessageDetail/' + id, { method: 'POST' });
+                if (!response.ok) {
+                    alert('Mesaj yüklenemedi.');
+                    return;
+                }
+                const data = await response.json();
+
+                document.getElementById('mdName').textContent = data.nameSurname;
+                document.getElementById('mdSubject').textContent = data.subject;
+                document.getElementById('mdDate').textContent = data.sendDate;
+                document.getElementById('mdBody').textContent = data.messageDetail;
+
+                const emailEl = document.getElementById('mdEmail');
+                emailEl.textContent = data.email;
+                emailEl.href = 'mailto:' + data.email;
+                document.getElementById('mdReply').href =
+                    'mailto:' + data.email + '?subject=' + encodeURIComponent('Re: ' + data.subject);
+
+                degisti = true;
+                modal.show();
+            });
+        });
+
+        // Modal kapanınca liste yenilensin (Yeni → Okundu, sayaç güncellensin)
+        modalEl.addEventListener('hidden.bs.modal', function () {
+            if (degisti) location.reload();
+        });
+    </script>
+}

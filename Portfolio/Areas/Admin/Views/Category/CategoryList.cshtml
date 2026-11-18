@@ -54,8 +54,10 @@
                                     <a href="/Admin/Category/UpdateCategory/@item.CategoryId" class="ui-btn ui-icon-btn edit" title="Düzenle" aria-label="Düzenle">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <a href="/Admin/Category/DeleteCategory/@item.CategoryId" class="ui-btn ui-icon-btn delete" title="Sil" aria-label="Sil"
-                                       onclick="return confirm('Bu kategoriyi silmek istediğinize emin misiniz?');">
+                                    <a href="/Admin/Category/DeleteCategory/@item.CategoryId"
+                                        class="ui-btn ui-icon-btn delete js-delete"
+                                        data-confirm="Bu kategori kalıcı olarak silinecek."
+                                        title="Sil" aria-label="Sil">
                                         <i class="bi bi-trash3"></i>
                                     </a>
                                 </div>

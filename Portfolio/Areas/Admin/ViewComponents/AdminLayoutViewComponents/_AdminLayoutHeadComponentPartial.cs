@@ -4,9 +4,9 @@ namespace Portfolio.Areas.Admin.ViewComponents.AdminLayoutViewComponents
 {
     public class _AdminLayoutHeadComponentPartial : ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string pageTitle)
         {
-            return View();
+            return View<string>(pageTitle);
         }
     }
 }

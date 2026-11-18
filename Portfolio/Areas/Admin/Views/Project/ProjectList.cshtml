@@ -79,8 +79,10 @@
                                     <a href="/Admin/Project/UpdateProject/@item.ProjectId" class="ui-btn ui-icon-btn edit" title="Düzenle" aria-label="Düzenle">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <a href="/Admin/Project/DeleteProject/@item.ProjectId" class="ui-btn ui-icon-btn delete" title="Sil" aria-label="Sil"
-                                       onclick="return confirm('Bu projeyi silmek istediğinize emin misiniz?');">
+                                    <a href="/Admin/Project/DeleteProject/@item.ProjectId"
+                                       class="ui-btn ui-icon-btn delete js-delete"
+                                       data-confirm="Bu proje ve görseli kalıcı olarak silinecek."
+                                       title="Sil" aria-label="Sil">
                                         <i class="bi bi-trash3"></i>
                                     </a>
                                 </div>
