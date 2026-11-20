@@ -1,0 +1,106 @@
+﻿@model List<Portfolio.Entities.Skill>
+@{
+    ViewData["Title"] = "Yetenekler";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Yetenek Listesi <span class="ui-count">@Model.Count kayıt</span></h2>
+            <p class="ui-card-sub">Gruplara bağlı yetenekleri ve seviyelerini buradan yönetebilirsiniz.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="/Admin/SkillGroup/SkillGroupList" class="ui-btn ui-btn-light">
+                <i class="bi bi-collection"></i> Gruplar
+            </a>
+            <a href="/Admin/Skill/CreateSkill" class="ui-btn ui-btn-primary">
+                <i class="bi bi-plus-lg"></i> Yeni Yetenek
+            </a>
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="ui-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">#</th>
+                        <th>Yetenek</th>
+                        <th>Grup</th>
+                        <th style="min-width: 180px;">Seviye</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="ui-id">@item.SkillId</span></td>
+                            <td class="fw-semibold">@item.Name</td>
+                            <td>@item.SkillGroup?.Title</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress flex-grow-1" style="height: 8px;">
+                                        <div class="progress-bar" role="progressbar" style="width: @item.Level%"
+                                             aria-valuenow="@item.Level" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="small text-secondary">%@item.Level</span>
+                                </div>
+                            </td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="ui-badge ui-badge-success">Aktif</span>
+                                }
+                                else
+                                {
+                                    <span class="ui-badge ui-badge-danger">Pasif</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="ui-actions">
+                                    <a href="/Admin/Skill/UpdateSkill/@item.SkillId" class="ui-btn ui-icon-btn edit" title="Düzenle" aria-label="Düzenle">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="/Admin/Skill/DeleteSkill/@item.SkillId" class="ui-btn ui-icon-btn delete js-delete"
+                                       data-confirm="Bu yetenek kalıcı olarak silinecek."
+                                       title="Sil" aria-label="Sil">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="ui-empty">
+            <i class="bi bi-code-slash"></i>
+            <div class="fw-semibold mb-1">Henüz yetenek eklenmemiş</div>
+            <div class="small">Başlamak için "Yeni Yetenek" butonunu kullanın.</div>
+        </div>
+    }
+</div>

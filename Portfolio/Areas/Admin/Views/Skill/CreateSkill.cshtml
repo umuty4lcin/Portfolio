@@ -1,0 +1,66 @@
+﻿@model Portfolio.Entities.Skill
+@{
+    ViewData["Title"] = "Yeni Yetenek";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Yeni Yetenek Ekle</h2>
+            <p class="ui-card-sub">Bir gruba bağlı yeni bir yetenek oluşturun.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <div class="ui-card-body">
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Name">Yetenek Adı</label>
+                        <input type="text" class="form-control" asp-for="Name" placeholder="ASP.NET Core" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="SkillGroupId">Grup</label>
+                        <select class="form-select" asp-for="SkillGroupId" asp-items="(SelectList)ViewBag.Groups">
+                            <option value="">Seçiniz</option>
+                        </select>
+                        <span asp-validation-for="SkillGroupId" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Level">
+                            Seviye: <span id="levelValue" class="fw-bold">%@Model.Level</span>
+                        </label>
+                        <input type="range" class="form-range" asp-for="Level" min="0" max="100" step="5" />
+                        <span asp-validation-for="Level" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check form-switch mt-4">
+                        <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                        <label class="form-check-label" for="IsActive">Aktif (ana sayfada göster)</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Kaydet</button>
+            <a href="/Admin/Skill/SkillList" class="ui-btn ui-btn-light">Vazgeç</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        const level = document.getElementById('Level');
+        const levelValue = document.getElementById('levelValue');
+        level.addEventListener('input', () => levelValue.textContent = '%' + level.value);
+    </script>
+}

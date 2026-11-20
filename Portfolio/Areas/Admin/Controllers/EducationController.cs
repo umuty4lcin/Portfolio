@@ -65,18 +65,19 @@ namespace Portfolio.Areas.Admin.Controllers
             existing.Description = education.Description;
             existing.Duration = education.Duration;
             existing.IsActive = education.IsActive;
+
             _context.SaveChanges();
             TempData["Success"] = "Eğitim bilgisi başarıyla güncellendi.";
             return RedirectToAction("EducationList");
         }
         public IActionResult DeleteEducation(int id)
         {
-            var values = _context.Educations.Find(id);
-            if(values == null)
+            var value = _context.Educations.Find(id);
+            if(value == null)
             {
                 return NotFound();
             }
-            _context.Educations.Remove(values);
+            _context.Educations.Remove(value);
             _context.SaveChanges();
             TempData["Success"] = "Eğitim bilgisi başarıyla silindi.";
             return RedirectToAction("EducationList");

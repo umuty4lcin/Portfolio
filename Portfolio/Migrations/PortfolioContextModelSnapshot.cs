@@ -293,6 +293,66 @@ namespace Portfolio.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("Portfolio.Entities.Skill", b =>
+                {
+                    b.Property<int>("SkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillId"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SkillGroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SkillId");
+
+                    b.HasIndex("SkillGroupId");
+
+                    b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("Portfolio.Entities.SkillGroup", b =>
+                {
+                    b.Property<int>("SkillGroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillGroupId"));
+
+                    b.Property<string>("ColorClass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IconClass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SkillGroupId");
+
+                    b.ToTable("SkillGroups");
+                });
+
             modelBuilder.Entity("Portfolio.Entities.Project", b =>
                 {
                     b.HasOne("Portfolio.Entities.Category", "Category")
@@ -304,9 +364,25 @@ namespace Portfolio.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("Portfolio.Entities.Skill", b =>
+                {
+                    b.HasOne("Portfolio.Entities.SkillGroup", "SkillGroup")
+                        .WithMany("Skills")
+                        .HasForeignKey("SkillGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SkillGroup");
+                });
+
             modelBuilder.Entity("Portfolio.Entities.Category", b =>
                 {
                     b.Navigation("Projects");
+                });
+
+            modelBuilder.Entity("Portfolio.Entities.SkillGroup", b =>
+                {
+                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,26 +1,18 @@
-﻿<!-- Infinite Soft Marquee for Technologies -->
-<div class="marquee-container">
-    <div class="marquee-track">
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> C# .NET</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> ASP.NET Core</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Microsoft SQL Server</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Entity Framework Core</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> RESTful API Design</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Clean Architecture</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Bootstrap 5</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> JavaScript (ES6+)</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Docker & Git</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> PostgreSQL</div>
-        <!-- Duplicate for seamless infinite loop -->
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> C# .NET</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> ASP.NET Core</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Microsoft SQL Server</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Entity Framework Core</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> RESTful API Design</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Clean Architecture</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Bootstrap 5</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> JavaScript (ES6+)</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> Docker & Git</div>
-        <div class="marquee-item"><i class="bi bi-check2-circle"></i> PostgreSQL</div>
+﻿@model List<string>
+
+<!-- Infinite Soft Marquee for Technologies -->
+@if (Model.Any())
+{
+    <div class="marquee-container">
+        <div class="marquee-track">
+            @* Kesintisiz döngü için liste iki kez yazdırılır *@
+            @for (int round = 0; round < 2; round++)
+            {
+                @foreach (var name in Model)
+                {
+                    <div class="marquee-item"><i class="bi bi-check2-circle"></i> @name</div>
+                }
+            }
+        </div>
     </div>
-</div>
+}

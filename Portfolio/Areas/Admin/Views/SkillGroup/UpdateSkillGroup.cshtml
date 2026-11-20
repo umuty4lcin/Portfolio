@@ -1,0 +1,107 @@
+﻿@model Portfolio.Entities.SkillGroup
+@{
+    ViewData["Title"] = "Yeni Yetenek Düzenle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Yeni Yetenek Grubu Ekle</h2>
+            <p class="ui-card-sub">Ana sayfada yetenekleri gruplayan yeni bir kart oluşturun.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <input type="hidden" asp-for="SkillGroupId" />
+        <div class="ui-card-body">
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Title">Grup Adı</label>
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Backend Development" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Description">Açıklama</label>
+                        <textarea class="form-control" asp-for="Description" rows="5"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="IconClass">İkon</label>
+                        <select class="form-select" asp-for="IconClass" id="IconClass">
+                            <option value="">Seçiniz</option>
+                            <option value="bi-hdd-network">Sunucu (hdd-network)</option>
+                            <option value="bi-browser-chrome">Tarayıcı (browser-chrome)</option>
+                            <option value="bi-database">Veritabanı (database)</option>
+                            <option value="bi-tools">Araçlar (tools)</option>
+                            <option value="bi-diagram-3">Mimari (diagram-3)</option>
+                            <option value="bi-code-slash">Kod (code-slash)</option>
+                            <option value="bi-cpu">İşlemci (cpu)</option>
+                            <option value="bi-cloud">Bulut (cloud)</option>
+                            <option value="bi-phone">Mobil (phone)</option>
+                            <option value="bi-shield-lock">Güvenlik (shield-lock)</option>
+                            <option value="bi-palette">Tasarım (palette)</option>
+                            <option value="bi-terminal">Terminal (terminal)</option>
+                        </select>
+                        <span asp-validation-for="IconClass" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="ColorClass">Renk</label>
+                        <select class="form-select" asp-for="ColorClass" id="ColorClass">
+                            <option value="">Seçiniz</option>
+                            <option value="bg-icon-purple">Mor</option>
+                            <option value="bg-icon-blue">Mavi</option>
+                            <option value="bg-icon-mint">Nane</option>
+                            <option value="bg-icon-peach">Şeftali</option>
+                        </select>
+                        <span asp-validation-for="ColorClass" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label">Önizleme</label>
+                        <div>
+                            <div id="iconPreview" class="float-icon-box" style="width:56px;height:56px;font-size:1.5rem;">
+                                <i class="bi"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mt-4">
+                        <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                        <label class="form-check-label" for="IsActive">Aktif (ana sayfada göster)</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Güncelle</button>
+            <a href="/Admin/SkillGroup/SkillGroupList" class="ui-btn ui-btn-light">Vazgeç</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        const iconSelect = document.getElementById('IconClass');
+        const colorSelect = document.getElementById('ColorClass');
+        const box = document.getElementById('iconPreview');
+        const icon = box.querySelector('i');
+
+        function refreshPreview() {
+            icon.className = 'bi ' + iconSelect.value;
+            box.className = 'float-icon-box ' + colorSelect.value;
+        }
+        iconSelect.addEventListener('change', refreshPreview);
+        colorSelect.addEventListener('change', refreshPreview);
+        refreshPreview();
+    </script>
+}

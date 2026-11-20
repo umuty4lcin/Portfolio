@@ -130,7 +130,8 @@
             // Fallback for older browsers
             revealElements.forEach(el => el.classList.add('revealed'));
         }
-
+        // 5. TOOLTIPS (yetenek chip'lerindeki seviye bilgisi)
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
 // 5. CONTACT FORM VALIDATION (HTML5 + Vanilla JS)
         const contactForm = document.getElementById('contactForm');
 
