@@ -1,239 +1,94 @@
 ﻿@model Portfolio.Entities.Experience
 @{
-    ViewData["Title"] = "Deneyim Güncelle";
+    ViewData["Title"] = "Deneyimi Düzenle";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
-
-    var workTypes = new List<string> { "Tam Zamanlı", "Yarı Zamanlı", "Staj", "Freelance", "Uzaktan", "Hibrit" };
-    // Kayıtlı değer listede yoksa kaybolmasın diye ekle
-    if (!string.IsNullOrWhiteSpace(Model?.WorkType) && !workTypes.Contains(Model.WorkType))
-    {
-        workTypes.Insert(0, Model.WorkType);
-    }
 }
 
-@section Styles {
-    <style>
-        .form-card {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-subtle);
-        }
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Yeni Deneyim Ekle</h2>
+            <p class="ui-card-sub">Ana sayfadaki zaman çizelgesinde görünecek yeni bir iş deneyimi oluşturun.</p>
+        </div>
+    </div>
 
-        .form-card-header {
-            padding: 20px 26px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .form-card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--pastel-purple);
-            color: var(--primary-accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-        }
-
-        .form-card-body { padding: 26px; }
-
-        .form-card-footer {
-            padding: 16px 26px;
-            border-top: 1px solid var(--border-color);
-            background: #FAFBFE;
-            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .form-label {
-            font-size: 0.83rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .form-label .req { color: #c0342b; }
-
-        .form-control, .form-select {
-            border-radius: 10px;
-            border: 1px solid #DCE1ED;
-            padding: 9px 13px;
-            font-size: 0.88rem;
-        }
-
-        .input-icon-wrap { position: relative; }
-
-        .input-icon-wrap i {
-            position: absolute;
-            left: 13px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            pointer-events: none;
-        }
-
-        .input-icon-wrap .form-control,
-        .input-icon-wrap .form-select { padding-left: 38px; }
-
-        .status-box {
-            border: 1px solid #DCE1ED;
-            border-radius: 10px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .form-switch .form-check-input {
-            width: 2.6em;
-            height: 1.35em;
-            cursor: pointer;
-        }
-
-        .form-check-input:checked {
-            background-color: var(--primary-accent);
-            border-color: var(--primary-accent);
-        }
-
-        .btn-accent {
-            background: var(--primary-accent);
-            border: 1px solid var(--primary-accent);
-            color: #fff;
-            border-radius: 12px;
-            font-weight: 600;
-            padding: 9px 20px;
-            box-shadow: 0 4px 12px rgba(130, 118, 217, 0.25);
-        }
-
-        .btn-accent:hover { background: var(--primary-accent-hover); color: #fff; }
-
-        .btn-soft {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            border-radius: 12px;
-            font-weight: 500;
-            padding: 9px 18px;
-        }
-
-        .btn-soft:hover { background: #F8F9FD; color: var(--primary-accent); }
-
-        .field-validation-error { font-size: 0.78rem; color: #c0342b; }
-    </style>
-}
-
-<div class="form-card">
-    <form asp-area="Admin" asp-action="UpdateExperience" method="post">
+    <form method="post">
         <input type="hidden" asp-for="ExperienceId" />
-
-        <div class="form-card-header">
-            <div class="form-card-icon"><i class="bi bi-briefcase"></i></div>
-            <div>
-                <h5 class="mb-0 fw-bold">Deneyimi Güncelle</h5>
-                <small class="text-secondary">Mevcut deneyim bilgilerini düzenleyip kaydedin.</small>
-            </div>
-        </div>
-
-        <div class="form-card-body">
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2"></div>
-
+        <div class="ui-card-body">
             <div class="row g-4">
-                <!-- Pozisyon -->
-                <div class="col-md-6">
-                    <label asp-for="Title" class="form-label">Pozisyon / Ünvan <span class="req">*</span></label>
-                    <div class="input-icon-wrap">
-                        <i class="bi bi-person-badge"></i>
-                        <input asp-for="Title" class="form-control" placeholder="Örn: Senior Software Engineer" required />
-                    </div>
-                    <span asp-validation-for="Title"></span>
-                </div>
 
-                <!-- Şirket -->
-                <div class="col-md-6">
-                    <label asp-for="CompanyName" class="form-label">Şirket Adı <span class="req">*</span></label>
-                    <div class="input-icon-wrap">
-                        <i class="bi bi-building"></i>
-                        <input asp-for="CompanyName" class="form-control" placeholder="Örn: NovaTech Solutions" required />
+                <div class="col-lg-5">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Title">Pozisyon</label>
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Software Engineer" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
                     </div>
-                    <span asp-validation-for="CompanyName"></span>
-                </div>
 
-                <!-- Alt Başlık -->
-                <div class="col-md-6">
-                    <label asp-for="SideTitle" class="form-label">Alt Başlık</label>
-                    <div class="input-icon-wrap">
-                        <i class="bi bi-geo-alt"></i>
-                        <input asp-for="SideTitle" class="form-control" placeholder="Örn: İstanbul / Hibrit" />
+                    <div class="mb-3">
+                        <label class="ui-label" for="CompanyName">Şirket</label>
+                        <input type="text" class="form-control" asp-for="CompanyName" placeholder="NovaTech Solutions" />
+                        <span asp-validation-for="CompanyName" class="text-danger small"></span>
                     </div>
-                    <span asp-validation-for="SideTitle"></span>
-                </div>
 
-                <!-- Süre -->
-                <div class="col-md-6">
-                    <label asp-for="Duration" class="form-label">Süre / Tarih Aralığı <span class="req">*</span></label>
-                    <div class="input-icon-wrap">
-                        <i class="bi bi-calendar3"></i>
-                        <input asp-for="Duration" class="form-control" placeholder="Örn: Ocak 2025 - Devam Ediyor" required />
+                    <div class="mb-3">
+                        <label class="ui-label" for="SideTitle">Alt Başlık (karşı tarafta italik yazılır)</label>
+                        <input type="text" class="form-control" asp-for="SideTitle" placeholder="Kurumsal Web Çözümleri" />
+                        <span asp-validation-for="SideTitle" class="text-danger small"></span>
                     </div>
-                    <span asp-validation-for="Duration"></span>
-                </div>
 
-                <!-- Çalışma Tipi -->
-                <div class="col-md-6">
-                    <label asp-for="WorkType" class="form-label">Çalışma Tipi <span class="req">*</span></label>
-                    <div class="input-icon-wrap">
-                        <i class="bi bi-clock-history"></i>
-                        <select asp-for="WorkType" class="form-select" required>
-                            <option value="">Seçiniz...</option>
-                            @foreach (var type in workTypes)
-                            {
-                                <option value="@type">@type</option>
-                            }
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="ui-label" for="StartDate">Başlangıç</label>
+                            <input type="date" class="form-control" asp-for="StartDate" />
+                            <span asp-validation-for="StartDate" class="text-danger small"></span>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="ui-label" for="EndDate">Bitiş</label>
+                            <input type="date" class="form-control" asp-for="EndDate" />
+                            <span asp-validation-for="EndDate" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="ui-hint mb-3">Hâlâ çalışıyorsanız bitiş tarihini boş bırakın, ana sayfada "Günümüz" yazar.</div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="WorkType">Çalışma Türü</label>
+                        <select class="form-select" asp-for="WorkType">
+                            <option value="">Seçiniz</option>
+                            <option value="Tam Zamanlı">Tam Zamanlı</option>
+                            <option value="Yarı Zamanlı">Yarı Zamanlı</option>
+                            <option value="Staj">Staj</option>
+                            <option value="Freelance">Freelance</option>
                         </select>
+                        <span asp-validation-for="WorkType" class="text-danger small"></span>
                     </div>
-                    <span asp-validation-for="WorkType"></span>
-                </div>
 
-                <!-- Durum -->
-                <div class="col-md-6">
-                    <label class="form-label">Durum</label>
-                    <div class="status-box">
-                        <div>
-                            <div class="fw-semibold" style="font-size: 0.86rem;">Halen burada çalışıyorum</div>
-                            <small class="text-secondary">Aktif ise portfolyoda "Devam Ediyor" olarak görünür.</small>
-                        </div>
-                        <div class="form-check form-switch m-0">
-                            <input asp-for="IsActive" class="form-check-input" type="checkbox" role="switch" />
-                        </div>
+                    <div class="form-check form-switch mt-4">
+                        <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                        <label class="form-check-label" for="IsActive">Aktif (ana sayfada göster)</label>
                     </div>
                 </div>
 
-                <!-- Açıklama -->
-                <div class="col-12">
-                    <label asp-for="Description" class="form-label">Açıklama <span class="req">*</span></label>
-                    <textarea asp-for="Description" class="form-control" rows="5"
-                              placeholder="Bu pozisyonda üstlendiğiniz görevleri ve sorumlulukları yazın..." required></textarea>
-                    <span asp-validation-for="Description"></span>
+                <div class="col-lg-7">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Description">Yapılan İşler (her satır bir madde)</label>
+                        <textarea class="form-control" asp-for="Description" rows="8"
+                                  placeholder="ASP.NET Core ile web uygulamaları geliştirme&#10;RESTful API geliştirme"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Technologies">Teknolojiler (virgülle ayırın)</label>
+                        <input type="text" class="form-control" asp-for="Technologies" placeholder="C#, ASP.NET Core, SQL Server" />
+                        <span asp-validation-for="Technologies" class="text-danger small"></span>
+                    </div>
                 </div>
+
             </div>
         </div>
 
-        <div class="form-card-footer">
-            <a asp-area="Admin" asp-action="ExperienceList" class="btn btn-soft">
-                <i class="bi bi-arrow-left me-1"></i> Vazgeç
-            </a>
-            <button type="submit" class="btn btn-accent">
-                <i class="bi bi-check2-circle me-1"></i> Değişiklikleri Kaydet
-            </button>
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Güncelle</button>
+            <a href="/Admin/Experience/ExperienceList" class="ui-btn ui-btn-light">Vazgeç</a>
         </div>
     </form>
 </div>
-
-

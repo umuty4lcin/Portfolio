@@ -1,31 +1,93 @@
 ﻿@model Portfolio.Entities.Experience
 @{
-    ViewData["Title"] = "CreateExperience";
+    ViewData["Title"] = "Yeni Deneyim";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
 }
-<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-<form method="post">
-    <div class="container">
-        </br>
-        <label>Başlık</label>
-        <input type="text" class="form-control" asp-for="Title" />
-        </br>
-        <label>Şirket Adı</label>
-        <input type="text" class="form-control" asp-for="CompanyName" />
-        </br>
-        <label>Açıklama</label>
-        <input type="text" class="form-control" asp-for="Description" />
-        </br>
-        <label>Alt Başlık</label>
-        <input type="text" class="form-control" asp-for="SideTitle" />
-        </br>
-        <label>Çalışma Zamanı</label>
-        <input type="text" class="form-control" asp-for="Duration" />
-        </br>
-        <label>Çalışma Türü</label>
-        <input type="text" class="form-control" asp-for="WorkType" />
-        </br>
-        <button class="btn btn-info">Kaydet</button>
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Yeni Deneyim Ekle</h2>
+            <p class="ui-card-sub">Ana sayfadaki zaman çizelgesinde görünecek yeni bir iş deneyimi oluşturun.</p>
+        </div>
     </div>
-</form>
+
+    <form method="post">
+        <div class="ui-card-body">
+            <div class="row g-4">
+
+                <div class="col-lg-5">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Title">Pozisyon</label>
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Software Engineer" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="CompanyName">Şirket</label>
+                        <input type="text" class="form-control" asp-for="CompanyName" placeholder="NovaTech Solutions" />
+                        <span asp-validation-for="CompanyName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="SideTitle">Alt Başlık (karşı tarafta italik yazılır)</label>
+                        <input type="text" class="form-control" asp-for="SideTitle" placeholder="Kurumsal Web Çözümleri" />
+                        <span asp-validation-for="SideTitle" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="ui-label" for="StartDate">Başlangıç</label>
+                            <input type="date" class="form-control" asp-for="StartDate" />
+                            <span asp-validation-for="StartDate" class="text-danger small"></span>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="ui-label" for="EndDate">Bitiş</label>
+                            <input type="date" class="form-control" asp-for="EndDate" />
+                            <span asp-validation-for="EndDate" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="ui-hint mb-3">Hâlâ çalışıyorsanız bitiş tarihini boş bırakın, ana sayfada "Günümüz" yazar.</div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="WorkType">Çalışma Türü</label>
+                        <select class="form-select" asp-for="WorkType">
+                            <option value="">Seçiniz</option>
+                            <option value="Tam Zamanlı">Tam Zamanlı</option>
+                            <option value="Yarı Zamanlı">Yarı Zamanlı</option>
+                            <option value="Staj">Staj</option>
+                            <option value="Freelance">Freelance</option>
+                        </select>
+                        <span asp-validation-for="WorkType" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check form-switch mt-4">
+                        <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                        <label class="form-check-label" for="IsActive">Aktif (ana sayfada göster)</label>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Description">Yapılan İşler (her satır bir madde)</label>
+                        <textarea class="form-control" asp-for="Description" rows="8"
+                                  placeholder="ASP.NET Core ile web uygulamaları geliştirme&#10;RESTful API geliştirme"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Technologies">Teknolojiler (virgülle ayırın)</label>
+                        <input type="text" class="form-control" asp-for="Technologies" placeholder="C#, ASP.NET Core, SQL Server" />
+                        <span asp-validation-for="Technologies" class="text-danger small"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Kaydet</button>
+            <a href="/Admin/Experience/ExperienceList" class="ui-btn ui-btn-light">Vazgeç</a>
+        </div>
+    </form>
+</div>

@@ -22,8 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="ViewComponents\AdminViewComponents\" />
-    <Folder Include="ViewComponents\StatisticsViewComponents\" />
   </ItemGroup>
 
 </Project>
