@@ -9,10 +9,12 @@ namespace Portfolio.Controllers
     public class DefaultController : Controller
     {
         private readonly PortfolioContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public DefaultController(PortfolioContext context)
+        public DefaultController(PortfolioContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
@@ -35,6 +37,18 @@ namespace Portfolio.Controllers
         }
         public IActionResult DownloadCv()
         {
+            // 1) Admin panelinden yüklenmiş PDF varsa onu ver
+            var cv = _context.CvFiles.FirstOrDefault();
+            if (cv != null)
+            {
+                var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "files", "cv", Path.GetFileName(cv.FilePath));
+                if (System.IO.File.Exists(fullPath))
+                {
+                    return PhysicalFile(fullPath, "application/pdf", cv.OriginalFileName);
+                }
+            }
+
+            // 2) Yüklenmemişse sitedeki bilgilerden otomatik üret
             var about = _context.Abouts.FirstOrDefault();
             if (about == null)
             {
@@ -58,6 +72,17 @@ namespace Portfolio.Controllers
             var pdf = CvPdfBuilder.Build(about, contact, educations, experiences, groups, projects);
             var fileName = about.NameSurname.Replace(" ", "-") + "-CV.pdf";
             return File(pdf, "application/pdf", fileName);
+        }
+        public IActionResult StatusPage(int code = 404)
+        {
+            ViewBag.Code = code;
+            return View();
+        }
+
+        public IActionResult Error()
+        {
+            ViewBag.Code = 500;
+            return View("StatusPage");
         }
     }
 }

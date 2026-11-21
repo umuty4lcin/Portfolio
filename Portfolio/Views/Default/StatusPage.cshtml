@@ -1,0 +1,29 @@
+﻿@{
+    Layout = null;
+    int code = (int)(ViewBag.Code ?? 404);
+
+    string baslik = code == 404 ? "Sayfa bulunamadı" : "Bir şeyler ters gitti";
+    string aciklama = code == 404
+        ? "Aradığınız sayfa taşınmış, silinmiş ya da hiç var olmamış olabilir."
+        : "Beklenmeyen bir hata oluştu. Lütfen biraz sonra tekrar deneyin.";
+}
+<!DOCTYPE html>
+<html lang="tr">
+
+@await Component.InvokeAsync("_DefaultHeadComponentPartial")
+
+<body>
+    <section class="min-vh-100 d-flex align-items-center" style="background-color: var(--bg-secondary);">
+        <div class="container text-center">
+            <div class="fw-bold" style="font-size: clamp(5rem, 18vw, 10rem); line-height: 1; color: var(--primary, #6c5ce7);">
+                @code
+            </div>
+            <h1 class="fs-2 fw-bold mt-3 mb-2">@baslik</h1>
+            <p class="text-secondary mb-4">@aciklama</p>
+            <a href="/" class="btn-custom-primary">
+                <i class="bi bi-house"></i> Ana Sayfaya Dön
+            </a>
+        </div>
+    </section>
+</body>
+</html>

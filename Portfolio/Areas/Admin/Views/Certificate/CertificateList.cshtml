@@ -1,0 +1,106 @@
+@model List<Portfolio.Entities.Certificate>
+@{
+    ViewData["Title"] = "Sertifikalar";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Sertifika Listesi <span class="ui-count">@Model.Count kayıt</span></h2>
+            <p class="ui-card-sub">Ana sayfadaki "Sertifikalarım" bölümünde görünen kayıtları buradan yönetebilirsiniz.</p>
+        </div>
+        <a href="/Admin/Certificate/CreateCertificate" class="ui-btn ui-btn-primary">
+            <i class="bi bi-plus-lg"></i> Yeni Sertifika
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="ui-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">#</th>
+                        <th>Sertifika</th>
+                        <th>Veren Kurum</th>
+                        <th>Yıl</th>
+                        <th>Bağlantı</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="ui-id">@item.CertificateId</span></td>
+                            <td class="fw-semibold">@item.Title</td>
+                            <td>@item.Issuer</td>
+                            <td>@item.Year</td>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(item.CertificateUrl))
+                                {
+                                    <a href="@item.CertificateUrl" target="_blank" rel="noopener noreferrer" class="ui-link">
+                                        <i class="bi bi-box-arrow-up-right"></i> Aç
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">—</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="ui-badge ui-badge-success">Aktif</span>
+                                }
+                                else
+                                {
+                                    <span class="ui-badge ui-badge-danger">Pasif</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="ui-actions">
+                                    <a href="/Admin/Certificate/UpdateCertificate/@item.CertificateId" class="ui-btn ui-icon-btn edit" title="Düzenle" aria-label="Düzenle">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="/Admin/Certificate/DeleteCertificate/@item.CertificateId" class="ui-btn ui-icon-btn delete js-delete"
+                                       data-confirm="Bu sertifika kalıcı olarak silinecek."
+                                       title="Sil" aria-label="Sil">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="ui-empty">
+            <i class="bi bi-patch-check"></i>
+            <div class="fw-semibold mb-1">Henüz sertifika eklenmemiş</div>
+            <div class="small">Başlamak için "Yeni Sertifika" butonunu kullanın.</div>
+        </div>
+    }
+</div>

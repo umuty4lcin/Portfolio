@@ -28,11 +28,17 @@ namespace Portfolio.Areas.Admin.Controllers
         public IActionResult CreateProject()
         {
             LoadCategories();
-            return View();
+            return View(new Project());
         }
         [HttpPost]
-        public IActionResult CreateProject(Project project, IFormFile coverImage)
+        public IActionResult CreateProject(Project project, IFormFile? coverImage)
         {
+            if (!ModelState.IsValid)
+            {
+                LoadCategories(project.CategoryId);
+                return View(project);
+            }
+
             if (coverImage == null || coverImage.Length == 0)
             {
                 ViewBag.ImageError = "Lütfen bir görsel seçin.";
@@ -43,7 +49,7 @@ namespace Portfolio.Areas.Admin.Controllers
             var path = SaveImage(coverImage);
             if (path == null)
             {
-                ViewBag.ImageError = "Sadece jpg, png veya webp yükleyebilirsiniz (en fazla 2 MB).";
+                ViewBag.ImageError = "Sadece jpg, jpeg veya png yükleyebilirsiniz (en fazla 2 MB).";
                 LoadCategories(project.CategoryId);
                 return View(project);
             }
@@ -51,6 +57,7 @@ namespace Portfolio.Areas.Admin.Controllers
             project.CoverImageUrl = path;
             _context.Projects.Add(project);
             _context.SaveChanges();
+            TempData["Success"] = "Proje başarıyla eklendi.";
             return RedirectToAction("ProjectList");
         }
         [HttpGet]
@@ -65,6 +72,7 @@ namespace Portfolio.Areas.Admin.Controllers
             return View(project);
         }
         [HttpPost]
+        [HttpPost]
         public IActionResult UpdateProject(Project project, IFormFile? coverImage)
         {
             var existingProject = _context.Projects.Find(project.ProjectId);
@@ -72,12 +80,20 @@ namespace Portfolio.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            if (!ModelState.IsValid)
+            {
+                project.CoverImageUrl = existingProject.CoverImageUrl;
+                LoadCategories(project.CategoryId);
+                return View(project);
+            }
+
             if (coverImage != null && coverImage.Length > 0)
             {
                 var path = SaveImage(coverImage);
                 if (path == null)
                 {
-                    ViewBag.ImageError = "Sadece jpg, png veya jpeg yükleyebilirsiniz (en fazla 2 MB).";
+                    ViewBag.ImageError = "Sadece jpg, jpeg veya png yükleyebilirsiniz (en fazla 2 MB).";
                     project.CoverImageUrl = existingProject.CoverImageUrl;
                     LoadCategories(project.CategoryId);
                     return View(project);
@@ -85,14 +101,19 @@ namespace Portfolio.Areas.Admin.Controllers
                 DeleteImage(existingProject.CoverImageUrl);
                 existingProject.CoverImageUrl = path;
             }
+
             existingProject.Title = project.Title;
             existingProject.Description = project.Description;
             existingProject.CategoryId = project.CategoryId;
             existingProject.GithubUrl = project.GithubUrl;
             existingProject.IsActive = project.IsActive;
             _context.SaveChanges();
+            TempData["Success"] = "Proje başarıyla güncellendi.";
             return RedirectToAction("ProjectList");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteProject(int id)
         {
             var values = _context.Projects.Find(id);
@@ -104,6 +125,7 @@ namespace Portfolio.Areas.Admin.Controllers
             _context.Projects.Remove(values);
             _context.SaveChanges();
             DeleteImage(imageUrl);
+            TempData["Success"] = "Proje başarıyla silindi.";
             return RedirectToAction("ProjectList");
         }
 
@@ -114,7 +136,7 @@ namespace Portfolio.Areas.Admin.Controllers
         }
 
         // Görsel ekleme ve güncelleme işlemleri için yardımcı metot
-        private string SaveImage(IFormFile file)
+        private string? SaveImage(IFormFile file)
         {
             var allowed = new[] { ".jpg", ".jpeg", ".png" };
             var ext = Path.GetExtension(file.FileName).ToLowerInvariant();

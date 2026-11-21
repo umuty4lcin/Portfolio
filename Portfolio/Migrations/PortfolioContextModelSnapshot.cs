@@ -80,6 +80,36 @@ namespace Portfolio.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("Portfolio.Entities.Certificate", b =>
+                {
+                    b.Property<int>("CertificateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CertificateId"));
+
+                    b.Property<string>("CertificateUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Issuer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("CertificateId");
+
+                    b.ToTable("Certificates");
+                });
+
             modelBuilder.Entity("Portfolio.Entities.Contact", b =>
                 {
                     b.Property<int>("ContactId")
@@ -115,6 +145,30 @@ namespace Portfolio.Migrations
                     b.HasKey("ContactId");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("Portfolio.Entities.CvFile", b =>
+                {
+                    b.Property<int>("CvFileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CvFileId"));
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CvFileId");
+
+                    b.ToTable("CvFiles");
                 });
 
             modelBuilder.Entity("Portfolio.Entities.Education", b =>
@@ -207,7 +261,6 @@ namespace Portfolio.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SubTitle")
@@ -273,7 +326,6 @@ namespace Portfolio.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CoverImageUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
@@ -356,6 +408,37 @@ namespace Portfolio.Migrations
                     b.HasKey("SkillGroupId");
 
                     b.ToTable("SkillGroups");
+                });
+
+            modelBuilder.Entity("Portfolio.Entities.WorkflowStep", b =>
+                {
+                    b.Property<int>("WorkflowStepId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WorkflowStepId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IconClass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("WorkflowStepId");
+
+                    b.ToTable("WorkflowSteps");
                 });
 
             modelBuilder.Entity("Portfolio.Entities.Project", b =>

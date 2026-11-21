@@ -62,6 +62,9 @@ namespace Portfolio.Areas.Admin.Controllers
                 sendDate = message.SendDate.ToString("dd.MM.yyyy HH:mm")
             });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteMessage(int id)
         {
             var value = _context.Messages.Find(id);
@@ -72,6 +75,7 @@ namespace Portfolio.Areas.Admin.Controllers
 
             _context.Messages.Remove(value);
             _context.SaveChanges();
+            TempData["Success"] = "Mesaj silindi.";
             return RedirectToAction("MessageList");
         }
     }

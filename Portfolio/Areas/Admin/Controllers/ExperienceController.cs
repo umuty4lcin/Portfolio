@@ -81,6 +81,8 @@ namespace Portfolio.Areas.Admin.Controllers
             return RedirectToAction("ExperienceList");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteExperience(int id)
         {
             var value = _context.Experiences.Find(id);

@@ -36,7 +36,7 @@ namespace Portfolio.Areas.Admin.Controllers
                     .ToList(),
 
                 CategoryStats = _context.Projects
-                    .GroupBy(P => P.Category.CategoryName)
+                    .GroupBy(p => p.Category.CategoryName)
                     .Select(g => new CategoryStat
                     {
                         CategoryName = g.Key,

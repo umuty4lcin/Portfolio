@@ -1,0 +1,104 @@
+@model List<Portfolio.Entities.WorkflowStep>
+@{
+    ViewData["Title"] = "Çalışma Yaklaşımı";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+
+    string Short(string? text, int max) =>
+        string.IsNullOrEmpty(text) ? "" : (text.Length <= max ? text : text.Substring(0, max).TrimEnd() + "...");
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Çalışma Adımları <span class="ui-count">@Model.Count kayıt</span></h2>
+            <p class="ui-card-sub">Ana sayfadaki "Fikirden Ürüne Yolculuk" bölümünde görünen adımları buradan yönetebilirsiniz.</p>
+        </div>
+        <a href="/Admin/WorkflowStep/CreateWorkflowStep" class="ui-btn ui-btn-primary">
+            <i class="bi bi-plus-lg"></i> Yeni Adım
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="ui-table">
+                <thead>
+                    <tr>
+                        <th style="width: 70px;">Sıra</th>
+                        <th style="width: 70px;">İkon</th>
+                        <th>Başlık</th>
+                        <th>Açıklama</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="ui-id">@item.SortOrder</span></td>
+                            <td><i class="bi @item.IconClass fs-5"></i></td>
+                            <td class="fw-semibold">@item.Title</td>
+                            <td style="max-width: 320px;">
+                                <span data-bs-toggle="tooltip" data-bs-title="@item.Description">@Short(item.Description, 60)</span>
+                            </td>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="ui-badge ui-badge-success">Aktif</span>
+                                }
+                                else
+                                {
+                                    <span class="ui-badge ui-badge-danger">Pasif</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="ui-actions">
+                                    <a href="/Admin/WorkflowStep/UpdateWorkflowStep/@item.WorkflowStepId" class="ui-btn ui-icon-btn edit" title="Düzenle" aria-label="Düzenle">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a href="/Admin/WorkflowStep/DeleteWorkflowStep/@item.WorkflowStepId" class="ui-btn ui-icon-btn delete js-delete"
+                                       data-confirm="Bu çalışma adımı kalıcı olarak silinecek."
+                                       title="Sil" aria-label="Sil">
+                                        <i class="bi bi-trash3"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="ui-empty">
+            <i class="bi bi-diagram-3"></i>
+            <div class="fw-semibold mb-1">Henüz çalışma adımı eklenmemiş</div>
+            <div class="small">Başlamak için "Yeni Adım" butonunu kullanın.</div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => new bootstrap.Tooltip(el));
+    </script>
+}

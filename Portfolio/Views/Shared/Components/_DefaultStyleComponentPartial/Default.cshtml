@@ -12,6 +12,11 @@
         --accent-purple-hover: #6E61C7;
         --border-color: #E7EAF2;
         --card-bg: #FFFFFF;
+        --surface: #FFFFFF;
+        --surface-alt: #F8F9FD;
+        --navbar-bg: rgba(255, 255, 255, 0.82);
+        --navbar-bg-scrolled: rgba(255, 255, 255, 0.94);
+        --floating-bg: rgba(255, 255, 255, 0.94);
         --shadow-soft: 0 10px 30px rgba(130, 118, 217, 0.08);
         --shadow-hover: 0 16px 36px rgba(130, 118, 217, 0.14);
         --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -111,7 +116,7 @@
 
     /* Custom Navbar */
     .custom-navbar {
-        background: rgba(255, 255, 255, 0.82);
+        background: var(--navbar-bg);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         border-bottom: 1px solid rgba(231, 234, 242, 0.7);
@@ -122,7 +127,7 @@
 
         .custom-navbar.scrolled {
             box-shadow: 0 8px 24px rgba(38, 51, 74, 0.05);
-            background: rgba(255, 255, 255, 0.94);
+            background: var(--navbar-bg-scrolled);
             padding: 0.65rem 0;
         }
 
@@ -209,7 +214,7 @@
         }
 
     .btn-custom-outline {
-        background: #FFFFFF;
+        background: var(--surface);
         color: var(--text-primary) !important;
         border: 1.5px solid var(--border-color);
         padding: 0.65rem 1.45rem;
@@ -244,7 +249,7 @@
         align-items: center;
         gap: 0.5rem;
         padding: 0.45rem 1.1rem;
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 50px;
         font-size: 0.875rem;
@@ -316,7 +321,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         color: var(--text-secondary);
         transition: var(--transition-smooth);
@@ -343,8 +348,8 @@
         border-radius: 28px;
         overflow: hidden;
         box-shadow: 0 20px 45px rgba(130, 118, 217, 0.16);
-        border: 6px solid #FFFFFF;
-        background: #FFFFFF;
+        border: 6px solid var(--surface);
+        background: var(--surface);
         aspect-ratio: 1/1;
     }
 
@@ -363,7 +368,7 @@
     /* Floating Badges */
     .floating-card {
         position: absolute;
-        background: rgba(255, 255, 255, 0.94);
+        background: var(--floating-bg);
         backdrop-filter: blur(8px);
         padding: 0.75rem 1.1rem;
         border-radius: 18px;
@@ -430,7 +435,7 @@
 
     /* About Section */
     .about-visual-box {
-        background: linear-gradient(145deg, #FFFFFF, var(--bg-secondary));
+        background: linear-gradient(145deg, var(--surface), var(--bg-secondary));
         border: 1px solid var(--border-color);
         border-radius: 24px;
         padding: 2.5rem;
@@ -461,7 +466,7 @@
     }
 
     .highlight-card {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 18px;
         padding: 1.35rem 1.25rem;
@@ -506,7 +511,7 @@
         width: 44px;
         height: 44px;
         border-radius: 50%;
-        background: #FFFFFF;
+        background: var(--surface);
         border: 3px solid var(--accent-purple);
         color: var(--accent-purple);
         display: flex;
@@ -564,7 +569,7 @@
 
     /* Skills Cards */
     .skill-group-card {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 22px;
         padding: 2rem 1.75rem;
@@ -580,7 +585,7 @@
         }
 
     .skill-chip {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         padding: 0.5rem 0.95rem;
         border-radius: 12px;
@@ -606,7 +611,7 @@
         overflow: hidden;
         white-space: nowrap;
         position: relative;
-        background: #FFFFFF;
+        background: var(--surface);
         border-top: 1px solid var(--border-color);
         border-bottom: 1px solid var(--border-color);
         padding: 1.1rem 0;
@@ -643,7 +648,7 @@
 
     /* Project Cards & Filters */
     .filter-btn {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         color: var(--text-secondary);
         padding: 0.5rem 1.25rem;
@@ -668,7 +673,7 @@
         }
 
     .project-card {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 22px;
         overflow: hidden;
@@ -698,7 +703,7 @@
     .project-thumb-preview {
         width: 88%;
         height: 82%;
-        background: #FFFFFF;
+        background: var(--surface);
         border-radius: 12px;
         box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         border: 1px solid var(--border-color);
@@ -714,7 +719,7 @@
 
     .preview-header {
         height: 22px;
-        background: #F8F9FD;
+        background: var(--surface-alt);
         border-bottom: 1px solid var(--border-color);
         display: flex;
         align-items: center;
@@ -726,7 +731,7 @@
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: #D5DAE5;
+        background: var(--border-color);
     }
 
     .preview-body {
@@ -740,7 +745,7 @@
 
     .preview-skeleton-bar {
         height: 6px;
-        background: #EEF2F8;
+        background: var(--bg-secondary);
         border-radius: 4px;
     }
 
@@ -804,7 +809,7 @@
 
     /* Workflow Section */
     .workflow-step-card {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 20px;
         padding: 2rem 1.5rem;
@@ -835,7 +840,7 @@
         transform: translateY(-50%);
         width: 36px;
         height: 36px;
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 50%;
         display: flex;
@@ -847,7 +852,7 @@
 
     /* Certificates */
     .certificate-card {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 20px;
         padding: 1.75rem;
@@ -866,7 +871,7 @@
 
     /* Contact Section */
     .contact-info-card {
-        background: linear-gradient(145deg, #FFFFFF, var(--bg-secondary));
+        background: linear-gradient(145deg, var(--surface), var(--bg-secondary));
         border: 1px solid var(--border-color);
         border-radius: 24px;
         padding: 2.5rem;
@@ -893,7 +898,7 @@
     }
 
     .contact-form-card {
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         border-radius: 24px;
         padding: 2.75rem;
@@ -906,13 +911,13 @@
         padding: 0.75rem 1rem;
         font-size: 0.95rem;
         color: var(--text-primary);
-        background-color: #FAFBFF;
+        background-color: var(--bg-primary);
         transition: var(--transition-smooth);
     }
 
         .form-control:focus {
             border-color: var(--accent-purple);
-            background-color: #FFFFFF;
+            background-color: var(--surface);
             box-shadow: 0 0 0 4px rgba(130, 118, 217, 0.15);
             color: var(--text-primary);
         }
@@ -926,7 +931,7 @@
 
     /* Footer */
     footer {
-        background: #FFFFFF;
+        background: var(--surface);
         border-top: 1px solid var(--border-color);
         padding: 4.5rem 0 2.5rem 0;
     }
@@ -950,7 +955,7 @@
         width: 46px;
         height: 46px;
         border-radius: 50%;
-        background: #FFFFFF;
+        background: var(--surface);
         border: 1px solid var(--border-color);
         color: var(--accent-purple);
         box-shadow: 0 8px 24px rgba(0,0,0,0.1);
@@ -1057,4 +1062,47 @@
             animation: none !important;
         }
     }
+    /* ========== DARK MODE ========== */
+    [data-bs-theme="dark"] {
+        --bg-primary: #0F1220;
+        --bg-secondary: #151A2C;
+        --lavender-accent: #2B2556;
+        --soft-blue: #1C2F4D;
+        --mint-green: #163428;
+        --warm-peach: #3D2B1D;
+        --text-primary: #E6EAF5;
+        --text-secondary: #A3AEC4;
+        --accent-purple: #9C8FF5;
+        --accent-purple-hover: #8A7CEC;
+        --border-color: #2A3150;
+        --card-bg: #1B2136;
+        --surface: #1B2136;
+        --surface-alt: #232A44;
+        --navbar-bg: rgba(15, 18, 32, 0.82);
+        --navbar-bg-scrolled: rgba(15, 18, 32, 0.94);
+        --floating-bg: rgba(27, 33, 54, 0.94);
+        --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.35);
+        --shadow-hover: 0 16px 36px rgba(0, 0, 0, 0.45);
+        color-scheme: dark;
+    }
+
+    [data-bs-theme="dark"] .bg-icon-mint { color: #5FD3A0; }
+    [data-bs-theme="dark"] .bg-icon-blue { color: #6FB1FF; }
+    [data-bs-theme="dark"] .bg-icon-peach { color: #FFA867; }
+
+    [data-bs-theme="dark"] .text-dark { color: var(--text-primary) !important; }
+    [data-bs-theme="dark"] .text-secondary { color: var(--text-secondary) !important; }
+    [data-bs-theme="dark"] .bg-light,
+    [data-bs-theme="dark"] .bg-white { background-color: var(--surface-alt) !important; }
+    [data-bs-theme="dark"] .border-light-subtle { border-color: var(--border-color) !important; }
+
+    [data-bs-theme="dark"] .btn-custom-primary {
+        background: linear-gradient(135deg, #7C6FE0 0%, #6355C4 100%);
+    }
+
+    [data-bs-theme="dark"] .nav-link:hover { background-color: rgba(156, 143, 245, 0.14); }
+    [data-bs-theme="dark"] .blob-bg { opacity: 0.22; }
+
+    /* Tema degistirme dugmesi (sosyal dugme gorunumunde) */
+    button.social-btn { padding: 0; cursor: pointer; }
 </style>

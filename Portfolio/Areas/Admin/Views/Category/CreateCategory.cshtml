@@ -17,8 +17,9 @@
             <label class="ui-label" for="CategoryName">Kategori Adı</label>
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-tag"></i></span>
-                <input type="text" class="form-control" asp-for="CategoryName" placeholder="Örn: Web Uygulamaları" required />
+                <input type="text" class="form-control" asp-for="CategoryName" placeholder="Örn: Web Uygulamaları"/>
             </div>
+            <span asp-validation-for="CategoryName" class="text-danger small"></span>
             <div class="ui-hint">Bu ad ana sayfadaki proje filtresinde görünür.</div>
         </div>
 

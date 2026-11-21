@@ -5,6 +5,23 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
 
+        // 0. TEMA DEĞİŞTİRME (açık / koyu)
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            const themeIcon = themeToggle.querySelector('i');
+            const currentTheme = () => document.documentElement.getAttribute('data-bs-theme') || 'light';
+            const syncThemeIcon = () => {
+                themeIcon.className = 'bi ' + (currentTheme() === 'dark' ? 'bi-sun' : 'bi-moon-stars');
+            };
+            themeToggle.addEventListener('click', function () {
+                const next = currentTheme() === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', next);
+                try { localStorage.setItem('portfolio-theme', next); } catch (e) { }
+                syncThemeIcon();
+            });
+            syncThemeIcon();
+        }
+
         // 1. TYPING ANIMATION (Turkish sentences, letter-by-letter, infinite loop)
         const sentences = [
             "Modern Web Uygulamaları Geliştiriyorum.",

@@ -73,6 +73,9 @@ namespace Portfolio.Areas.Admin.Controllers
             TempData["Success"] = "Yetenek bilgisi başarıyla güncellendi.";
             return RedirectToAction("SkillList");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteSkill(int id)
         {
             var value = _context.Skills.Find(id);

@@ -23,7 +23,7 @@ namespace Portfolio.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult CreateEducation()
         {
-            return View();
+            return View(new Education());
         }
         [HttpPost]
         public IActionResult CreateEducation(Education education)
@@ -70,6 +70,9 @@ namespace Portfolio.Areas.Admin.Controllers
             TempData["Success"] = "Eğitim bilgisi başarıyla güncellendi.";
             return RedirectToAction("EducationList");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteEducation(int id)
         {
             var value = _context.Educations.Find(id);

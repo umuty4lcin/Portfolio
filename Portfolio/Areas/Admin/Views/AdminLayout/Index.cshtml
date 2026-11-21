@@ -35,7 +35,7 @@
                     }
                     @if (!string.IsNullOrEmpty(controller))
                     {
-                        <li class="breadcrumb-item"><a href="@(string.IsNullOrEmpty(area) ? "" : "/" + area)/@controller">@controller</a></li>
+                        <li class="breadcrumb-item">@controller</li>
                     }
                     @if (!string.IsNullOrEmpty(action))
                     {

@@ -1,9 +1,28 @@
-﻿<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+﻿<form id="deleteForm" method="post" style="display:none">
+    @Html.AntiForgeryToken()
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
 <script>
     function toggleSidebar() {
         document.body.classList.toggle("sidebar-open");
     }
+
+    // Tema değiştirme (açık / koyu) - tercih ana siteyle ortak saklanır
+    (function () {
+        const btn = document.getElementById('themeToggle');
+        if (!btn) return;
+        const icon = btn.querySelector('i');
+        const current = () => document.documentElement.getAttribute('data-bs-theme') || 'light';
+        const sync = () => { icon.className = 'bi ' + (current() === 'dark' ? 'bi-sun' : 'bi-moon-stars'); };
+        btn.addEventListener('click', function () {
+            const next = current() === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-bs-theme', next);
+            try { localStorage.setItem('portfolio-theme', next); } catch (e) { }
+            sync();
+        });
+        sync();
+    })();
 
     // Class'ı "js-delete" olan her silme linki için ortak onay penceresi
     document.addEventListener('click', function (e) {
@@ -12,7 +31,11 @@
 
         e.preventDefault();
 
+        const dark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+
         Swal.fire({
+            background: dark ? '#1B2136' : '#ffffff',
+            color: dark ? '#E6EAF5' : '#545454',
             title: 'Emin misiniz?',
             text: link.dataset.confirm || 'Bu kayıt kalıcı olarak silinecek.',
             icon: 'warning',
@@ -24,7 +47,9 @@
             reverseButtons: true
         }).then(function (result) {
             if (result.isConfirmed) {
-                window.location.href = link.href;
+                const form = document.getElementById('deleteForm');
+                form.action = link.href;
+                form.submit();
             }
         });
     });

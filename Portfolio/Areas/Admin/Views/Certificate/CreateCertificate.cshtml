@@ -1,0 +1,73 @@
+@model Portfolio.Entities.Certificate
+@{
+    ViewData["Title"] = "Yeni Sertifika";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Yeni Sertifika</h2>
+            <p class="ui-card-sub">Ana sayfada görünecek yeni bir sertifika ekleyin.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <div class="ui-card-body">
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Title">Sertifika Adı</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-patch-check"></i></span>
+                            <input type="text" class="form-control" asp-for="Title" placeholder="ASP.NET Core Web Development" />
+                        </div>
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Issuer">Veren Kurum</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-building"></i></span>
+                            <input type="text" class="form-control" asp-for="Issuer" placeholder="Microsoft Learn" />
+                        </div>
+                        <span asp-validation-for="Issuer" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Year">Yıl</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                            <input type="number" class="form-control" asp-for="Year" min="1990" max="2100" />
+                        </div>
+                        <span asp-validation-for="Year" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="CertificateUrl">Sertifika Bağlantısı (isteğe bağlı)</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-link-45deg"></i></span>
+                            <input type="text" class="form-control" asp-for="CertificateUrl" placeholder="https://..." />
+                        </div>
+                        <span asp-validation-for="CertificateUrl" class="text-danger small"></span>
+                        <div class="ui-hint">Boş bırakırsanız ana sayfada "Sertifikayı Görüntüle" bağlantısı görünmez.</div>
+                    </div>
+
+                    <div class="form-check form-switch mt-4">
+                        <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                        <label class="form-check-label" for="IsActive">Aktif (ana sayfada göster)</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Kaydet</button>
+            <a href="/Admin/Certificate/CertificateList" class="ui-btn ui-btn-light">Vazgeç</a>
+        </div>
+    </form>
+</div>

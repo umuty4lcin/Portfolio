@@ -5,9 +5,8 @@ namespace Portfolio.Context
 {
     public class PortfolioContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public PortfolioContext(DbContextOptions<PortfolioContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=PortfolioDBNight;integrated security=true;trustservercertificate=true");
         }
         public DbSet<About> Abouts { get; set; }
         public DbSet<Education> Educations { get; set; }
@@ -19,5 +18,8 @@ namespace Portfolio.Context
         public DbSet<Project> Projects { get; set; }
         public DbSet <Skill> Skills { get; set; }
         public DbSet <SkillGroup> SkillGroups { get; set; }
+        public DbSet<WorkflowStep> WorkflowSteps { get; set; }
+        public DbSet<Certificate> Certificates { get; set; }
+        public DbSet<CvFile> CvFiles { get; set; }
     }
 }

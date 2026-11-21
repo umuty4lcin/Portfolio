@@ -1,0 +1,96 @@
+@model Portfolio.Entities.WorkflowStep
+@{
+    ViewData["Title"] = "Çalışma Adımını Düzenle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="ui-card">
+    <div class="ui-card-header">
+        <div>
+            <h2 class="ui-card-title">Çalışma Adımını Düzenle</h2>
+            <p class="ui-card-sub">Adımın bilgilerini güncelleyin.</p>
+        </div>
+    </div>
+
+    <form method="post">
+        <input type="hidden" asp-for="WorkflowStepId" />
+
+        <div class="ui-card-body">
+            <div class="row g-4">
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="Title">Adım Başlığı</label>
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Analiz" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="Description">Açıklama</label>
+                        <textarea class="form-control" asp-for="Description" rows="5"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="mb-3">
+                        <label class="ui-label" for="IconClass">İkon</label>
+                        <select class="form-select" asp-for="IconClass" id="IconClass">
+                            <option value="">Seçiniz</option>
+                            <option value="bi-search">Arama (search)</option>
+                            <option value="bi-palette">Tasarım (palette)</option>
+                            <option value="bi-code-square">Kod (code-square)</option>
+                            <option value="bi-check2-circle">Onay (check2-circle)</option>
+                            <option value="bi-lightbulb">Fikir (lightbulb)</option>
+                            <option value="bi-clipboard-check">Planlama (clipboard-check)</option>
+                            <option value="bi-bug">Hata ayıklama (bug)</option>
+                            <option value="bi-rocket-takeoff">Yayın (rocket-takeoff)</option>
+                            <option value="bi-gear">Ayar (gear)</option>
+                            <option value="bi-people">Ekip (people)</option>
+                            <option value="bi-diagram-3">Mimari (diagram-3)</option>
+                            <option value="bi-cloud-upload">Dağıtım (cloud-upload)</option>
+                        </select>
+                        <span asp-validation-for="IconClass" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label" for="SortOrder">Sıra</label>
+                        <input type="number" class="form-control" asp-for="SortOrder" min="1" max="99" />
+                        <span asp-validation-for="SortOrder" class="text-danger small"></span>
+                        <div class="ui-hint">Küçük numara önce görünür. Ana sayfada 01, 02... şeklinde numaralanır.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="ui-label">Önizleme</label>
+                        <div>
+                            <div class="float-icon-box bg-icon-purple" style="width:56px;height:56px;font-size:1.5rem;">
+                                <i id="iconPreview" class="bi"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mt-4">
+                        <input class="form-check-input" type="checkbox" asp-for="IsActive" />
+                        <label class="form-check-label" for="IsActive">Aktif (ana sayfada göster)</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ui-card-footer">
+            <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-check-lg"></i> Güncelle</button>
+            <a href="/Admin/WorkflowStep/WorkflowStepList" class="ui-btn ui-btn-light">Vazgeç</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        const iconSelect = document.getElementById('IconClass');
+        const iconPreview = document.getElementById('iconPreview');
+        function refreshPreview() { iconPreview.className = 'bi ' + iconSelect.value; }
+        iconSelect.addEventListener('change', refreshPreview);
+        refreshPreview();
+    </script>
+}

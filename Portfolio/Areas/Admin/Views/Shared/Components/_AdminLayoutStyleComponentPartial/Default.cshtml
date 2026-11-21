@@ -7,6 +7,14 @@
         --sidebar-border: rgba(220, 226, 245, 0.08);
         --bg-main: #F6F7FC;
         --card-bg: #FFFFFF;
+        --surface: #FFFFFF;
+        --surface-alt: #F8F9FD;
+        --surface-hover: #F2F4F9;
+        --row-hover: #FAFAFE;
+        --danger-soft: #FDECEC;
+        --success-soft: #E6F7EE;
+        --navbar-bg: rgba(255, 255, 255, 0.94);
+        --scroll-thumb: #cfd6e4;
         --text-primary: #29344C;
         --text-secondary: #8490A5;
         --primary-accent: #8276D9;
@@ -39,7 +47,7 @@
     }
 
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-thumb { background: #cfd6e4; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 4px; }
 
     /* ========== SIDEBAR ========== */
     #sidebar-wrapper {
@@ -170,7 +178,7 @@
     /* ========== NAVBAR ========== */
     .admin-navbar {
         height: 68px;
-        background: rgba(255, 255, 255, 0.94);
+        background: var(--navbar-bg);
         backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--border-color);
         position: sticky;
@@ -188,7 +196,7 @@
         height: 40px;
         border-radius: 10px;
         border: 1px solid var(--border-color);
-        background: #fff;
+        background: var(--surface);
         color: var(--text-primary);
         display: inline-flex;
         align-items: center;
@@ -225,7 +233,7 @@
         gap: 10px;
     }
 
-    .dropdown-item:hover { background: #F2F4F9; color: var(--primary-accent); }
+    .dropdown-item:hover { background: var(--surface-hover); color: var(--primary-accent); }
 
     /* ========== BREADCRUMB / PAGE HEADER ========== */
     .page-header {
@@ -278,7 +286,7 @@
     /* ========== FOOTER ========== */
     .admin-footer {
         border-top: 1px solid var(--border-color);
-        background: #fff;
+        background: var(--surface);
         padding: 16px 28px;
         font-size: 0.8rem;
         color: var(--text-secondary);
@@ -350,7 +358,7 @@
         display: flex;
         gap: 10px;
         padding: 16px 24px;
-        background: #F8F9FD;
+        background: var(--surface-alt);
         border-top: 1px solid var(--border-color);
     }
 
@@ -374,7 +382,7 @@
     }
 
     .ui-table thead th {
-        background: #F8F9FD;
+        background: var(--surface-alt);
         color: var(--text-secondary);
         font-size: 0.72rem;
         font-weight: 700;
@@ -392,7 +400,7 @@
     }
 
     .ui-table tbody tr:last-child td { border-bottom: 0; }
-    .ui-table tbody tr:hover { background: #FAFAFE; }
+    .ui-table tbody tr:hover { background: var(--row-hover); }
 
     .ui-id {
         display: inline-flex;
@@ -432,8 +440,8 @@
     .ui-btn-primary { background: var(--primary-accent); color: #fff; }
     .ui-btn-primary:hover { background: var(--primary-accent-hover); color: #fff; }
 
-    .ui-btn-light { background: #fff; border-color: var(--border-color); color: var(--text-primary); }
-    .ui-btn-light:hover { background: #F2F4F9; color: var(--text-primary); }
+    .ui-btn-light { background: var(--surface); border-color: var(--border-color); color: var(--text-primary); }
+    .ui-btn-light:hover { background: var(--surface-hover); color: var(--text-primary); }
 
     .ui-icon-btn {
         width: 34px;
@@ -446,7 +454,7 @@
     .ui-icon-btn.edit { background: var(--pastel-purple); color: var(--primary-accent); }
     .ui-icon-btn.edit:hover { background: var(--primary-accent); color: #fff; }
 
-    .ui-icon-btn.delete { background: #FDECEC; color: #D9534F; }
+    .ui-icon-btn.delete { background: var(--danger-soft); color: #D9534F; }
     .ui-icon-btn.delete:hover { background: #D9534F; color: #fff; }
 
     /* Boş durum */
@@ -475,7 +483,7 @@
     }
 
     .input-group-text {
-        background: #F8F9FD;
+        background: var(--surface-alt);
         border-color: var(--border-color);
         color: var(--text-secondary);
     }
@@ -501,8 +509,8 @@
         background: currentColor;
     }
 
-    .ui-badge-success { background: #E6F7EE; color: #1E9E5A; }
-    .ui-badge-danger { background: #FDECEC; color: #D9534F; }
+    .ui-badge-success { background: var(--success-soft); color: #1E9E5A; }
+    .ui-badge-danger { background: var(--danger-soft); color: #D9534F; }
 
     /* Tablodaki küçük görsel ve bağlantılar */
     .ui-thumb {
@@ -511,7 +519,7 @@
         object-fit: cover;
         border-radius: 8px;
         border: 1px solid var(--border-color);
-        background: #F8F9FD;
+        background: var(--surface-alt);
         display: block;
     }
 
@@ -546,4 +554,34 @@
         font-size: 0.86rem;
         margin-bottom: 16px;
     }
+    /* ========== DARK MODE ========== */
+    [data-bs-theme="dark"] {
+        --sidebar-bg: #141829;
+        --sidebar-surface: #1E2338;
+        --sidebar-active: #3B4470;
+        --bg-main: #0F1220;
+        --card-bg: #1B2136;
+        --text-primary: #E6EAF5;
+        --text-secondary: #A3AEC4;
+        --primary-accent: #A99CFA;
+        --primary-accent-hover: #9486F0;
+        --border-color: #2A3150;
+        --pastel-purple: #2B2556;
+        --surface: #1B2136;
+        --surface-alt: #232A44;
+        --surface-hover: #2A3150;
+        --row-hover: #212842;
+        --danger-soft: #3A1F25;
+        --success-soft: #14301F;
+        --navbar-bg: rgba(15, 18, 32, 0.94);
+        --scroll-thumb: #3A4262;
+        --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.3);
+        color-scheme: dark;
+    }
+
+    [data-bs-theme="dark"] .ui-btn-primary { background: #7C6FE0; }
+    [data-bs-theme="dark"] .ui-btn-primary:hover { background: #8F83F0; }
+    [data-bs-theme="dark"] .ui-icon-btn.delete { color: #F27C78; }
+    [data-bs-theme="dark"] .ui-badge-success { color: #4FD18B; }
+    [data-bs-theme="dark"] .ui-badge-danger { color: #F27C78; }
 </style>

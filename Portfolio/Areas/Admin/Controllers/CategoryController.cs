@@ -19,10 +19,12 @@ namespace Portfolio.Areas.Admin.Controllers
             var values = _context.Categories.ToList();
             return View(values);
         }
+        [HttpGet]
         public IActionResult CreateCategory()
         {
-            return View();
+            return View(new Category());
         }
+
         [HttpPost]
         public IActionResult CreateCategory(Category category)
         {
@@ -30,10 +32,45 @@ namespace Portfolio.Areas.Admin.Controllers
             {
                 return View(category);
             }
-            _context.Add(category);
+            _context.Categories.Add(category);
             _context.SaveChanges();
+            TempData["Success"] = "Kategori başarıyla eklendi.";
             return RedirectToAction("CategoryList");
         }
+
+        [HttpGet]
+        public IActionResult UpdateCategory(int id)
+        {
+            var values = _context.Categories.Find(id);
+            if (values == null)
+            {
+                return NotFound();
+            }
+            return View(values);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCategory(Category category)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(category);
+            }
+
+            var existing = _context.Categories.Find(category.CategoryId);
+            if (existing == null)
+            {
+                return NotFound();
+            }
+            existing.CategoryName = category.CategoryName;
+
+            _context.SaveChanges();
+            TempData["Success"] = "Kategori başarıyla güncellendi.";
+            return RedirectToAction("CategoryList");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteCategory(int id)
         {
             var hasProjects = _context.Projects.Any(p => p.CategoryId == id);
@@ -50,19 +87,6 @@ namespace Portfolio.Areas.Admin.Controllers
             _context.Categories.Remove(values);
             _context.SaveChanges();
             TempData["Success"] = "Kategori silindi.";
-            return RedirectToAction("CategoryList");
-        }
-        [HttpGet]
-        public IActionResult UpdateCategory(int id)
-        {
-            var values = _context.Categories.Find(id);
-            return View(values);
-        }
-        [HttpPost]
-        public IActionResult UpdateCategory (Category category)
-        {
-            _context.Categories.Update(category);
-            _context.SaveChanges();
             return RedirectToAction("CategoryList");
         }
     }

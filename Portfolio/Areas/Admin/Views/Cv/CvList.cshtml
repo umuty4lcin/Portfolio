@@ -1,0 +1,93 @@
+@model Portfolio.Entities.CvFile?
+@{
+    ViewData["Title"] = "CV Yönetimi";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+
+<div class="row g-4">
+
+    <!-- Mevcut CV -->
+    <div class="col-lg-5">
+        <div class="ui-card h-100">
+            <div class="ui-card-header">
+                <div>
+                    <h2 class="ui-card-title">Mevcut CV</h2>
+                    <p class="ui-card-sub">Ana sayfadaki "CV İndir" butonunun indirdiği dosya.</p>
+                </div>
+            </div>
+            <div class="ui-card-body">
+                @if (Model != null)
+                {
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="float-icon-box bg-icon-peach" style="width:56px;height:56px;font-size:1.5rem;">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                        </div>
+                        <div>
+                            <div class="fw-semibold">@Model.OriginalFileName</div>
+                            <div class="small text-secondary">Yüklenme: @Model.UploadedAt.ToString("dd.MM.yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="/Default/DownloadCv" class="ui-btn ui-btn-light">
+                            <i class="bi bi-download"></i> İndir
+                        </a>
+                        <a href="/Admin/Cv/DeleteCv/@Model.CvFileId" class="ui-btn ui-icon-btn delete js-delete"
+                           data-confirm="Yüklediğiniz CV silinecek. Ana sayfadaki buton sistemden otomatik üretilen CV'yi indirecek."
+                           title="Sil" aria-label="Sil">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="ui-empty">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                        <div class="fw-semibold mb-1">Henüz CV yüklenmemiş</div>
+                        <div class="small">Yükleme yapılmazsa "CV İndir" butonu, sitedeki bilgilerden otomatik oluşturulan CV'yi indirir.</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Yükleme formu -->
+    <div class="col-lg-7">
+        <div class="ui-card h-100">
+            <div class="ui-card-header">
+                <div>
+                    <h2 class="ui-card-title">@(Model == null ? "CV Yükle" : "CV'yi Güncelle")</h2>
+                    <p class="ui-card-sub">Yeni dosya yüklediğinizde eskisi otomatik silinir.</p>
+                </div>
+            </div>
+
+            <form method="post" action="/Admin/Cv/UploadCv" enctype="multipart/form-data">
+                <div class="ui-card-body">
+                    <label class="ui-label" for="cvFile">PDF Dosyası</label>
+                    <input type="file" class="form-control" id="cvFile" name="cvFile" accept="application/pdf,.pdf" required />
+                    <div class="ui-hint mt-2">Sadece PDF, en fazla 5 MB.</div>
+                </div>
+                <div class="ui-card-footer">
+                    <button type="submit" class="ui-btn ui-btn-primary"><i class="bi bi-upload"></i> Yükle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

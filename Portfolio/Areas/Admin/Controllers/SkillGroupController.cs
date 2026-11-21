@@ -69,6 +69,9 @@ namespace Portfolio.Areas.Admin.Controllers
             TempData["Success"] = "Yetenek grubu bilgisi başarıyla güncellendi.";
             return RedirectToAction("SkillGroupList");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteSkillGroup(int id)
         {
             var hasSkills = _context.Skills.Any(p => p.SkillGroupId == id);

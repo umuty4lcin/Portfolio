@@ -7,6 +7,22 @@
     bool filtreVar = !string.IsNullOrWhiteSpace((string?)ViewBag.Search)
                      || !string.IsNullOrWhiteSpace((string?)ViewBag.Status);
 }
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@TempData["Error"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show ui-alert" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span>@TempData["Success"]</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Kapat"></button>
+    </div>
+}
 
 <div class="ui-card">
     <div class="ui-card-header">
@@ -142,7 +158,7 @@
                     </div>
                 </div>
                 <div class="ui-label">Mesaj</div>
-                <div id="mdBody" class="p-3 rounded-3 border" style="white-space: pre-wrap; background: var(--bg-main, #f8f9fc);"></div>
+                <div id="mdBody" class="p-3 rounded-3 border" style="white-space: pre-wrap; background: var(--surface-alt);"></div>
             </div>
             <div class="modal-footer">
                 <a id="mdReply" class="ui-btn ui-btn-primary"><i class="bi bi-reply"></i> E-posta ile yanıtla</a>
