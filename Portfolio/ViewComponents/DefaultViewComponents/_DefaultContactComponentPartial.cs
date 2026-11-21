@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Portfolio.Context;
+using Portfolio.Entities;
 
 namespace Portfolio.ViewComponents.DefaultViewComponents
 {
@@ -14,7 +15,7 @@ namespace Portfolio.ViewComponents.DefaultViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var contact = _context.Contacts.FirstOrDefault();
+            var contact = _context.Contacts.FirstOrDefault() ?? new Contact();
             return View(contact);
         }
     }
